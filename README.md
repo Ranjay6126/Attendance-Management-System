@@ -53,7 +53,7 @@ npm run dev
 5.  **First Run**: Click "Initialize System (First Run Only)" on the login page to create the Super Admin account.
 6.  **Super Admin Credentials**:
     -   Email: `admin@planningguru.com`
-    -   Password: `admin123`
+    -   Password: `it is safe`
 7.  Login and start creating Admins and Employees.
 
 ## Project Structure
@@ -65,3 +65,4 @@ npm run dev
 ## License
 
 Internal Use Only - Planning Guru
+
