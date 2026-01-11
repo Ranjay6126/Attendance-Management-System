@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
                     setUser(data);
                 } catch (error) {
                     localStorage.removeItem('token');
+                    setUser(null);
                 }
             }
             setLoading(false);
@@ -28,10 +29,14 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (email, password) => {
-        const { data } = await axios.post('/auth/login', { email, password });
-        localStorage.setItem('token', data.token);
-        setUser(data);
-        return data;
+        try {
+            const { data } = await axios.post('/auth/login', { email, password });
+            localStorage.setItem('token', data.token);
+            setUser(data);
+            return data;
+        } catch (error) {
+            throw error;
+        }
     };
 
     const logout = () => {

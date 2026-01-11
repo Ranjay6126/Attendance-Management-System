@@ -11,24 +11,20 @@ const Login = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [setupMsg, setSetupMsg] = useState('');
-    const [loginRole, setLoginRole] = useState('Employee'); // 'Employee', 'Admin', 'Super Admin'
+    const [loginRole, setLoginRole] = useState('Employee');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setLoading(true);
         try {
             const userData = await login(email, password);
-            
-            // Optional: Enforce role matching if desired, but typically backend handles this.
-            // For now, we just redirect. If strict role separation is needed visually:
-            /*
-            if (loginRole === 'Employee' && userData.role !== 'Employee') {
-                throw new Error('Please login via the correct role page.');
-            }
-            */
-            
             navigate('/dashboard');
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed');
+            setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -59,7 +55,7 @@ const Login = () => {
                     <div>
                         <input
                             type="email"
-                            placeholder="Username"
+                            placeholder="Email"
                             className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-700 placeholder-gray-400"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -78,9 +74,10 @@ const Login = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white p-3.5 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg shadow-blue-500/30 mt-2"
+                        disabled={loading}
+                        className="w-full bg-blue-600 text-white p-3.5 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg shadow-blue-500/30 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        Sign in
+                        {loading ? 'Signing in...' : 'Sign in'}
                     </button>
                 </form>
 
