@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+// Use relative path for Vite proxy in development, or env variable for production
 const instance = axios.create({
-    baseURL: '/api', // Vite proxy handles this
+    baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 instance.interceptors.request.use((config) => {
@@ -11,5 +12,16 @@ instance.interceptors.request.use((config) => {
     }
     return config;
 });
+
+instance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default instance;

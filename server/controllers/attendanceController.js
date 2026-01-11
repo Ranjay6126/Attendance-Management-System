@@ -4,6 +4,36 @@ const AuditLog = require('../models/AuditLog');
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
+
+// Helper for reverse geocoding
+const getAddressFromCoordinates = (latitude, longitude) => {
+    return new Promise((resolve) => {
+        try {
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+            https.get(url, { headers: { 'User-Agent': 'PlanningGuru/1.0' } }, (res) => {
+                let data = '';
+                res.on('data', (chunk) => { data += chunk; });
+                res.on('end', () => {
+                    try {
+                        const parsed = JSON.parse(data);
+                        if (parsed && parsed.display_name) {
+                            resolve(parsed.display_name);
+                        } else {
+                            resolve(`Lat: ${latitude}, Long: ${longitude}`);
+                        }
+                    } catch (e) {
+                        resolve(`Lat: ${latitude}, Long: ${longitude}`);
+                    }
+                });
+            }).on('error', () => {
+                resolve(`Lat: ${latitude}, Long: ${longitude}`);
+            });
+        } catch (error) {
+            resolve(`Lat: ${latitude}, Long: ${longitude}`);
+        }
+    });
+};
 
 // Helper for Audit Logging
 const logAction = async (action, performedBy, targetUser, details) => {
@@ -24,7 +54,7 @@ const logAction = async (action, performedBy, targetUser, details) => {
 // @access  Private
 const checkIn = async (req, res) => {
     try {
-        const { latitude, longitude, address, attendanceType } = req.body;
+        const { latitude, longitude, attendanceType } = req.body;
         const userId = req.user._id;
         const today = new Date().toISOString().split('T')[0];
 
@@ -35,13 +65,16 @@ const checkIn = async (req, res) => {
         }
 
         const checkInImage = req.file ? req.file.path : '';
+        
+        // Get address from coordinates using reverse geocoding
+        const address = await getAddressFromCoordinates(latitude, longitude);
 
         const attendance = await Attendance.create({
             user: userId,
             date: today,
             checkInTime: new Date(),
             status: 'Pending Approval',
-            attendanceType,
+            attendanceType: attendanceType || 'Office',
             checkInImage,
             checkInLocation: {
                 latitude,
@@ -62,7 +95,7 @@ const checkIn = async (req, res) => {
 // @access  Private
 const checkOut = async (req, res) => {
     try {
-        const { latitude, longitude, address } = req.body;
+        const { latitude, longitude } = req.body;
         const userId = req.user._id;
         const today = new Date().toISOString().split('T')[0];
 
@@ -78,6 +111,9 @@ const checkOut = async (req, res) => {
 
         const checkOutImage = req.file ? req.file.path : '';
         const checkOutTime = new Date();
+        
+        // Get address from coordinates using reverse geocoding
+        const address = await getAddressFromCoordinates(latitude, longitude);
         
         // Calculate working hours
         const duration = (checkOutTime - new Date(attendance.checkInTime)) / (1000 * 60 * 60); // in hours
@@ -109,11 +145,18 @@ const getAttendance = async (req, res) => {
         let query = {};
         
         if (role === 'Employee') {
+            // Get last 3 months based on date field, not createdAt
             const threeMonthsAgo = new Date();
             threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-            query = { user: _id, createdAt: { $gte: threeMonthsAgo } };
-        } 
-        // Admin and SuperAdmin view all (UI filters can handle specific views)
+            const threeMonthsAgoStr = threeMonthsAgo.toISOString().split('T')[0];
+            query = { user: _id, date: { $gte: threeMonthsAgoStr } };
+        } else if (role === 'Admin') {
+            // Admin can see all employees (no date restriction)
+            query = {};
+        } else if (role === 'SuperAdmin') {
+            // SuperAdmin can see all (no restrictions)
+            query = {};
+        }
         
         const attendance = await Attendance.find(query)
             .populate('user', 'name email department role')

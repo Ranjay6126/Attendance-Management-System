@@ -70,40 +70,44 @@ const EmployeeDashboard = () => {
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-gray-100">
-                                    <th className="p-3 border">Date</th>
-                                    <th className="p-3 border">Check In</th>
-                                    <th className="p-3 border">Check Out</th>
-                                    <th className="p-3 border">Hours</th>
-                                    <th className="p-3 border">Type</th>
-                                    <th className="p-3 border">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {attendanceHistory.map((record) => (
-                                    <tr key={record._id} className="border-b">
-                                        <td className="p-3">{record.date}</td>
-                                        <td className="p-3">{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-'}</td>
-                                        <td className="p-3">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-'}</td>
-                                        <td className="p-3">{record.workingHours ? record.workingHours.toFixed(2) : '0'}</td>
-                                        <td className="p-3">{record.attendanceType}</td>
-                                        <td className="p-3">
-                                            <span className={`px-2 py-1 rounded text-sm ${
-                                                record.status === 'Present' ? 'bg-green-100 text-green-800' :
-                                                record.status === 'Absent' ? 'bg-red-100 text-red-800' :
-                                                'bg-yellow-100 text-yellow-800'
-                                            }`}>
-                                                {record.status}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                                {attendanceHistory.length === 0 && (
-                                    <tr>
-                                        <td colSpan="6" className="p-3 text-center">No records found</td>
-                                    </tr>
-                                )}
+                                    <thead>
+                                        <tr className="bg-gray-100">
+                                            <th className="p-3 border">Date</th>
+                                            <th className="p-3 border">Check In</th>
+                                            <th className="p-3 border">Check Out</th>
+                                            <th className="p-3 border">Hours</th>
+                                            <th className="p-3 border">Type</th>
+                                            <th className="p-3 border">Status</th>
+                                            <th className="p-3 border">Location</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {attendanceHistory.map((record) => (
+                                            <tr key={record._id} className="border-b">
+                                                <td className="p-3">{record.date}</td>
+                                                <td className="p-3">{record.checkInTime ? new Date(record.checkInTime).toLocaleString() : '-'}</td>
+                                                <td className="p-3">{record.checkOutTime ? new Date(record.checkOutTime).toLocaleString() : '-'}</td>
+                                                <td className="p-3">{record.workingHours ? record.workingHours.toFixed(2) : '0'}</td>
+                                                <td className="p-3">{record.attendanceType}</td>
+                                                <td className="p-3">
+                                                    <span className={`px-2 py-1 rounded text-sm ${
+                                                        record.status === 'Present' ? 'bg-green-100 text-green-800' :
+                                                        record.status === 'Absent' ? 'bg-red-100 text-red-800' :
+                                                        'bg-yellow-100 text-yellow-800'
+                                                    }`}>
+                                                        {record.status}
+                                                    </span>
+                                                </td>
+                                                <td className="p-3 text-xs">
+                                                    {record.checkInLocation?.address || '-'}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        {attendanceHistory.length === 0 && (
+                                            <tr>
+                                                <td colSpan="7" className="p-3 text-center">No records found</td>
+                                            </tr>
+                                        )}
                             </tbody>
                         </table>
                     </div>

@@ -6,10 +6,17 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 const cron = require('node-cron');
+const fs = require('fs');
 
 dotenv.config();
 
 const app = express();
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // Middleware
 app.use(express.json());
@@ -28,9 +35,35 @@ app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err));
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/attendance_system')
+.then(async () => {
+    console.log('MongoDB Connected');
+    
+    // Create indexes for better performance
+    const Attendance = require('./models/Attendance');
+    const User = require('./models/User');
+    
+    try {
+        await Attendance.createIndexes([
+            { user: 1, date: 1 },
+            { date: -1 },
+            { user: 1, date: -1 }
+        ]);
+        
+        await User.createIndexes([
+            { email: 1 },
+            { role: 1 }
+        ]);
+        
+        console.log('Database indexes created successfully');
+    } catch (err) {
+        console.log('Index creation note:', err.message);
+    }
+})
+.catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+});
 
 // Cron Job for 11:00 AM Notification (Simulated log for now)
 cron.schedule('0 11 * * *', () => {
