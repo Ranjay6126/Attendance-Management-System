@@ -43,12 +43,31 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Encrypt password using bcrypt
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', function (next) {
+    // Only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) {
-        next();
+        return next();
     }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    
+    // Skip hashing if password is already hashed (starts with $2a$, $2b$, etc.)
+    if (this.password && this.password.startsWith('$2')) {
+        return next();
+    }
+    
+    // Generate salt and hash password
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            return next(err);
+        }
+        
+        bcrypt.hash(this.password, salt, (err, hash) => {
+            if (err) {
+                return next(err);
+            }
+            this.password = hash;
+            next();
+        });
+    });
 });
 
 // Match user entered password to hashed password in database
