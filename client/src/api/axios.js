@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+// Use relative path for Vite proxy in development, or env variable for production
 const instance = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 instance.interceptors.request.use((config) => {

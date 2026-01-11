@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
-import { CalendarCheck } from 'lucide-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -20,6 +19,8 @@ const Login = () => {
         setLoading(true);
         try {
             const userData = await login(email, password);
+            // Verify role matches if user selected a specific role (optional check)
+            // For now, we allow any role to login - the backend will route to correct dashboard
             navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
@@ -38,14 +39,11 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
-            <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+        <div className="min-h-screen flex items-center justify-center bg-white font-sans">
+            <div className="bg-white w-full max-w-md p-10">
                 <div className="flex flex-col items-center mb-8">
-                    <div className="bg-blue-100 p-3 rounded-xl mb-4">
-                        <CalendarCheck className="w-8 h-8 text-blue-600" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900">{loginRole} Sign In</h2>
-                    <p className="text-gray-500 mt-2">Your attendance, simplified.</p>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2">{loginRole} Sign In</h2>
+                    <p className="text-gray-500 text-sm">Your attendance, simplified.</p>
                 </div>
 
                 {error && <div className="bg-red-50 text-red-600 p-3 mb-6 rounded-lg text-sm text-center border border-red-100">{error}</div>}
@@ -56,7 +54,7 @@ const Login = () => {
                         <input
                             type="email"
                             placeholder="Email"
-                            className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-700 placeholder-gray-400"
+                            className="w-full p-3.5 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-900 placeholder:text-gray-400"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -66,7 +64,7 @@ const Login = () => {
                         <input
                             type="password"
                             placeholder="Password"
-                            className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-700 placeholder-gray-400"
+                            className="w-full p-3.5 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-900 placeholder:text-gray-400"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -75,7 +73,7 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-blue-600 text-white p-3.5 rounded-lg font-semibold hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg shadow-blue-500/30 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-blue-600 text-white p-3.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? 'Signing in...' : 'Sign in'}
                     </button>
@@ -93,17 +91,29 @@ const Login = () => {
 
                     <div className="mt-6 flex justify-center gap-6 text-sm font-medium">
                         {loginRole !== 'Employee' && (
-                            <button onClick={() => setLoginRole('Employee')} className="text-blue-600 hover:text-blue-800 transition-colors">
+                            <button 
+                                type="button"
+                                onClick={() => setLoginRole('Employee')} 
+                                className="text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+                            >
                                 Employee
                             </button>
                         )}
                         {loginRole !== 'Admin' && (
-                            <button onClick={() => setLoginRole('Admin')} className="text-blue-600 hover:text-blue-800 transition-colors">
+                            <button 
+                                type="button"
+                                onClick={() => setLoginRole('Admin')} 
+                                className="text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+                            >
                                 Admin
                             </button>
                         )}
                         {loginRole !== 'Super Admin' && (
-                            <button onClick={() => setLoginRole('Super Admin')} className="text-blue-600 hover:text-blue-800 transition-colors">
+                            <button 
+                                type="button"
+                                onClick={() => setLoginRole('Super Admin')} 
+                                className="text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+                            >
                                 Super Admin
                             </button>
                         )}
@@ -112,7 +122,11 @@ const Login = () => {
                 
                 {/* Hidden setup trigger for dev/first-run */}
                 <div className="mt-8 text-center opacity-0 hover:opacity-100 transition-opacity">
-                    <button onClick={handleSetup} className="text-xs text-gray-300 hover:text-gray-500">
+                    <button 
+                        type="button"
+                        onClick={handleSetup} 
+                        className="text-xs text-gray-300 hover:text-gray-500"
+                    >
                         Initialize System
                     </button>
                 </div>
