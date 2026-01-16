@@ -40,43 +40,52 @@ const Login = () => {
     };
 
     return (
-        <div className={`min-h-screen flex items-center justify-center transition-colors ${
-            isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
+        <div className={`min-h-screen flex items-center justify-center transition-colors px-4 py-8 ${
+            isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
         }`}>
             {/* Theme Toggle - Top Right */}
             <div className="fixed top-4 right-4 z-50">
                 <ThemeToggle />
             </div>
 
-            <div className={`w-full max-w-md p-8 rounded-2xl shadow-2xl transition-colors ${
-                isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
+            <div className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-2xl transition-colors ${
+                isDark ? 'bg-gray-800/95 border border-gray-700 backdrop-blur-sm' : 'bg-white/95 border border-gray-200 backdrop-blur-sm'
             }`}>
                 {/* Logo Section - Above "Sign in as Employee" */}
                 <div className="flex flex-col items-center mb-8">
                     {/* HatBoy Logo */}
-                    <div className="mb-6 relative">
+                    <div className="mb-4 relative">
                         <img 
                             src="/logo.png" 
                             alt="HatBoy Logo" 
-                            className="w-32 h-32 object-contain"
+                            className="w-24 h-24 sm:w-32 sm:h-32 object-contain drop-shadow-lg"
                             onError={(e) => {
-                                // Fallback if image doesn't exist
                                 e.target.style.display = 'none';
                                 const fallback = e.target.nextElementSibling;
                                 if (fallback) fallback.classList.remove('hidden');
                             }}
                         />
-                        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-lg hidden">
-                            <div className="text-white text-4xl font-bold">HB</div>
+                        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-lg hidden">
+                            <div className="text-white text-3xl sm:text-4xl font-bold">HB</div>
                         </div>
                     </div>
                     
-                    <h2 className={`text-3xl font-bold mb-2 ${
-                        isDark ? 'text-white' : 'text-gray-800'
+                    <h1 className={`text-xl sm:text-2xl font-extrabold mb-1 ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                    }`}>
+                        Hat-Boy
+                    </h1>
+                    <h2 className={`text-lg sm:text-xl font-bold mb-2 ${
+                        isDark ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                        Attendance_system
+                    </h2>
+                    <h3 className={`text-lg sm:text-xl font-bold mb-2 ${
+                        isDark ? 'text-blue-400' : 'text-blue-600'
                     }`}>
                         {loginRole} Sign In
-                    </h2>
-                    <p className={`text-sm ${
+                    </h3>
+                    <p className={`text-xs sm:text-sm font-medium ${
                         isDark ? 'text-gray-400' : 'text-gray-500'
                     }`}>
                         Your attendance, simplified.
@@ -84,33 +93,33 @@ const Login = () => {
                 </div>
 
                 {error && (
-                    <div className={`mb-6 p-3 rounded-lg text-sm text-center border ${
+                    <div className={`mb-4 sm:mb-6 p-3 rounded-lg text-xs sm:text-sm text-center font-semibold border ${
                         isDark 
                             ? 'bg-red-900/30 text-red-300 border-red-700' 
-                            : 'bg-red-50 text-red-600 border-red-200'
+                            : 'bg-red-50 text-red-700 border-red-200'
                     }`}>
                         {error}
                     </div>
                 )}
                 {setupMsg && (
-                    <div className={`mb-6 p-3 rounded-lg text-sm text-center border ${
+                    <div className={`mb-4 sm:mb-6 p-3 rounded-lg text-xs sm:text-sm text-center font-semibold border ${
                         isDark 
                             ? 'bg-green-900/30 text-green-300 border-green-700' 
-                            : 'bg-green-50 text-green-600 border-green-200'
+                            : 'bg-green-50 text-green-700 border-green-200'
                     }`}>
                         {setupMsg}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                     <div>
                         <input
                             type="email"
                             placeholder="Email"
-                            className={`w-full p-4 rounded-lg border transition-all ${
+                            className={`w-full p-3 sm:p-4 rounded-lg border-2 transition-all font-medium ${
                                 isDark
                                     ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                             }`}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -121,10 +130,10 @@ const Login = () => {
                         <input
                             type="password"
                             placeholder="Password"
-                            className={`w-full p-4 rounded-lg border transition-all ${
+                            className={`w-full p-3 sm:p-4 rounded-lg border-2 transition-all font-medium ${
                                 isDark
                                     ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                             }`}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -134,13 +143,13 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 sm:p-4 rounded-lg font-bold text-sm sm:text-base transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
                     >
                         {loading ? 'Signing in...' : 'Sign in'}
                     </button>
                 </form>
 
-                <div className="mt-8">
+                <div className="mt-6 sm:mt-8">
                     <div className="relative">
                         <div className={`absolute inset-0 flex items-center ${
                             isDark ? 'border-gray-700' : 'border-gray-200'
@@ -149,16 +158,16 @@ const Login = () => {
                                 isDark ? 'border-gray-700' : 'border-gray-200'
                             }`}></div>
                         </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className={`px-3 ${
-                                isDark ? 'bg-gray-800 text-gray-400' : 'bg-white text-gray-500'
+                        <div className="relative flex justify-center text-xs sm:text-sm">
+                            <span className={`px-3 font-semibold ${
+                                isDark ? 'bg-gray-800 text-gray-400' : 'bg-white text-gray-600'
                             }`}>
                                 Or sign in as
                             </span>
                         </div>
                     </div>
 
-                    <div className="mt-6 flex justify-center gap-6 text-sm font-medium">
+                    <div className="mt-4 sm:mt-6 flex justify-center gap-4 sm:gap-6 text-xs sm:text-sm font-bold">
                         {loginRole !== 'Employee' && (
                             <button 
                                 type="button"
@@ -202,11 +211,11 @@ const Login = () => {
                 </div>
                 
                 {/* Hidden setup trigger for dev/first-run */}
-                <div className="mt-8 text-center opacity-0 hover:opacity-100 transition-opacity">
+                <div className="mt-6 sm:mt-8 text-center opacity-0 hover:opacity-100 transition-opacity">
                     <button 
                         type="button"
                         onClick={handleSetup} 
-                        className={`text-xs transition-colors ${
+                        className={`text-xs font-medium transition-colors ${
                             isDark ? 'text-gray-600 hover:text-gray-400' : 'text-gray-300 hover:text-gray-500'
                         }`}
                     >

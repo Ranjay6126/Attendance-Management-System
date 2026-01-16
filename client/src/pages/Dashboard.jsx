@@ -36,31 +36,47 @@ const Dashboard = () => {
         return () => clearInterval(checkTime);
     }, []);
 
-    if (!user) return <div>Loading...</div>;
+    if (!user) return (
+        <div className={`min-h-screen flex items-center justify-center ${
+            isDark ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
+        }`}>
+            <div className="text-xl font-bold">Loading...</div>
+        </div>
+    );
 
     return (
         <div className={`min-h-screen transition-colors ${
             isDark ? 'bg-gray-900' : 'bg-gray-50'
         }`}>
-            <nav className={`shadow-sm p-4 mb-6 transition-colors ${
+            <nav className={`shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 transition-colors sticky top-0 z-40 ${
                 isDark ? 'bg-gray-800 border-b border-gray-700' : 'bg-white'
             }`}>
-                <div className="container mx-auto flex justify-between items-center">
-                    <h1 className={`text-2xl font-bold ${
-                        isDark ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
-                        HatBoy attendance_system
-                    </h1>
-                    <div className="flex items-center gap-4">
-                        <span className={`font-semibold ${
+                <div className="container mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <img 
+                            src="/logo.png" 
+                            alt="HatBoy Logo" 
+                            className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+                            onError={(e) => {
+                                e.target.style.display = 'none';
+                            }}
+                        />
+                        <h1 className={`text-lg sm:text-xl md:text-2xl font-extrabold ${
+                            isDark ? 'text-blue-400' : 'text-blue-600'
+                        }`}>
+                            Hat-Boy <span className="text-sm sm:text-base md:text-lg font-bold">attendance_system</span>
+                        </h1>
+                    </div>
+                    <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-between sm:justify-end">
+                        <span className={`font-bold text-xs sm:text-sm ${
                             isDark ? 'text-gray-200' : 'text-gray-800'
                         }`}>
-                            {user.name} ({user.role})
+                            {user.name} <span className="hidden sm:inline">({user.role})</span>
                         </span>
                         <ThemeToggle />
                         <button 
                             onClick={handleLogout} 
-                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded font-bold text-xs sm:text-sm transition-colors"
                         >
                             Logout
                         </button>
@@ -68,7 +84,7 @@ const Dashboard = () => {
                 </div>
             </nav>
 
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-3 sm:p-4">
                 {user.role === 'Employee' && <EmployeeDashboard />}
                 {user.role === 'Admin' && <AdminDashboard />}
                 {user.role === 'SuperAdmin' && <SuperAdminDashboard />}
