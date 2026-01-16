@@ -23,11 +23,9 @@ const SuperAdminDashboard = () => {
     const fetchMyAttendance = async () => {
         try {
             const { data } = await axios.get('/attendance');
-            // Filter to show only SuperAdmin's own attendance (last 3 months)
             const threeMonthsAgo = new Date();
             threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
             const filtered = data.filter(record => {
-                // Filter by current user's ID
                 const isMyRecord = record.user && (
                     (typeof record.user === 'object' && record.user._id === user?._id) ||
                     (typeof record.user === 'string' && record.user === user?._id) ||
@@ -58,11 +56,11 @@ const SuperAdminDashboard = () => {
         try {
             await axios.post('/auth/register', newUser);
             setMessage('User created successfully!');
+            setTimeout(() => setMessage(''), 3000);
             setNewUser({ name: '', email: '', password: '', role: 'Admin', department: '', designation: '' });
         } catch (error) {
             const errorMsg = error.response?.data?.message || 'Failed to create user. Please check all fields and try again.';
             setErrorMessage(errorMsg);
-            console.error('Create user error:', error);
         }
     };
 
@@ -96,69 +94,68 @@ const SuperAdminDashboard = () => {
             link.setAttribute('download', 'attendance_full_report.xlsx');
             document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         } catch (error) {
             console.error('Download failed', error);
         }
     };
 
+    const getStatusBadgeColor = (status) => {
+        switch(status) {
+            case 'Present':
+                return isDark ? 'bg-green-900/30 text-green-300 border border-green-700' : 'bg-green-100 text-green-700 border border-green-300';
+            case 'Absent':
+                return isDark ? 'bg-red-900/30 text-red-300 border border-red-700' : 'bg-red-100 text-red-700 border border-red-300';
+            case 'Leave':
+                return isDark ? 'bg-yellow-900/30 text-yellow-300 border border-yellow-700' : 'bg-yellow-100 text-yellow-700 border border-yellow-300';
+            default:
+                return isDark ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-800';
+        }
+    };
+
     return (
-        <div>
-            <div className="flex flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6 overflow-x-auto pb-2">
-                <button 
-                    onClick={() => setActiveTab('myAttendance')} 
-                    className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-colors whitespace-nowrap ${
-                        activeTab === 'myAttendance' 
-                            ? 'bg-purple-600 text-white shadow-md' 
-                            : isDark 
-                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                >
-                    My Attendance
-                </button>
-                <button 
-                    onClick={() => setActiveTab('attendance')} 
-                    className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-colors whitespace-nowrap ${
-                        activeTab === 'attendance' 
-                            ? 'bg-purple-600 text-white shadow-md' 
-                            : isDark 
-                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                >
-                    All Attendance Records
-                </button>
-                <button 
-                    onClick={() => setActiveTab('users')} 
-                    className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-colors whitespace-nowrap ${
-                        activeTab === 'users' 
-                            ? 'bg-purple-600 text-white shadow-md' 
-                            : isDark 
-                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                >
-                    Create Admin/Employee
-                </button>
+        <div className="space-y-6">
+            {/* Tab Navigation */}
+            <div className={`flex flex-wrap gap-2 p-1 rounded-lg transition-colors ${
+                isDark ? 'bg-gray-700/50' : 'bg-gray-100'
+            }`}>
+                {['myAttendance', 'attendance', 'users'].map((tab) => (
+                    <button 
+                        key={tab}
+                        onClick={() => setActiveTab(tab)} 
+                        className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all whitespace-nowrap ${
+                            activeTab === tab 
+                                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' 
+                                : isDark 
+                                    ? 'text-gray-300 hover:text-white' 
+                                    : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                    >
+                        {tab === 'myAttendance' && '📋 My Attendance'}
+                        {tab === 'attendance' && '📊 All Records'}
+                        {tab === 'users' && '➕ Create User'}
+                    </button>
+                ))}
             </div>
 
+            {/* My Attendance Tab */}
             {activeTab === 'myAttendance' && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="md:col-span-1">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-1">
                         <AttendanceMarker onSuccess={() => {
                             setRefreshMyAttendance(!refreshMyAttendance);
                             fetchMyAttendance();
                         }} />
                     </div>
                     
-                    <div className="md:col-span-2">
-                        <div className={`p-4 sm:p-6 rounded-xl transition-colors ${
-                            isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-white border border-gray-200 shadow-2xl'
+                    <div className="lg:col-span-2">
+                        <div className={`p-6 rounded-xl transition-all ${
+                            isDark 
+                                ? 'bg-gray-800 border border-gray-700 shadow-xl' 
+                                : 'bg-white border border-gray-200 shadow-lg'
                         }`}>
-                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-4">
-                                <h3 className={`text-lg sm:text-xl font-extrabold ${
-                                    isDark ? 'text-white' : 'text-gray-900'
-                                }`}>
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                                <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
                                     My Attendance History (Last 3 Months)
                                 </h3>
                                 <button onClick={async () => {
@@ -170,447 +167,150 @@ const SuperAdminDashboard = () => {
                                         link.setAttribute('download', 'my_attendance.xlsx');
                                         document.body.appendChild(link);
                                         link.click();
+                                        document.body.removeChild(link);
                                     } catch (error) {
                                         console.error('Download failed', error);
                                     }
-                                }} className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all shadow-lg hover:shadow-xl ${
-                                    isDark 
-                                        ? 'bg-green-700 hover:bg-green-600 text-white' 
-                                        : 'bg-green-600 hover:bg-green-700 text-white'
-                                }`}>
-                                    Download Report
+                                }} className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2">
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                    Download
                                 </button>
                             </div>
-                            <div className="overflow-x-auto -mx-4 sm:mx-0">
-                                <div className="inline-block min-w-full align-middle">
-                                    <table className="min-w-full text-left border-collapse">
-                                        <thead>
-                                            <tr className={isDark ? 'bg-gray-700' : 'bg-gray-100'}>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Date
-                                                </th>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Check In
-                                                </th>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Check Out
-                                                </th>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Hours
-                                                </th>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Type
-                                                </th>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Status
-                                                </th>
-                                                <th className={`p-2 sm:p-3 border font-bold text-xs sm:text-sm ${
-                                                    isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                                }`}>
-                                                    Location
-                                                </th>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                    <thead>
+                                        <tr className={`border-b-2 ${isDark ? 'border-gray-700 bg-gray-700/50' : 'border-gray-300 bg-gray-100'}`}>
+                                            <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Date</th>
+                                            <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>In</th>
+                                            <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Out</th>
+                                            <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Hours</th>
+                                            <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Type</th>
+                                            <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {myAttendanceData.length > 0 ? myAttendanceData.map((record) => (
+                                            <tr key={record._id} className={`border-b transition-colors ${isDark ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                                                <td className={`p-3 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{record.date}</td>
+                                                <td className={`p-3 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-'}</td>
+                                                <td className={`p-3 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-'}</td>
+                                                <td className={`p-3 text-sm font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>{record.workingHours ? record.workingHours.toFixed(2) + 'h' : '0h'}</td>
+                                                <td className={`p-3 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{record.attendanceType}</td>
+                                                <td><span className={`px-3 py-1 rounded-full text-xs font-bold ${getStatusBadgeColor(record.status)}`}>{record.status}</span></td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {myAttendanceData.map((record) => (
-                                                <tr key={record._id} className={`border-b font-medium transition-colors ${
-                                                    isDark ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
-                                                }`}>
-                                                    <td className={`p-2 sm:p-3 text-xs sm:text-sm font-semibold ${
-                                                        isDark ? 'text-gray-300' : 'text-gray-800'
-                                                    }`}>
-                                                        {record.date}
-                                                    </td>
-                                                    <td className={`p-2 sm:p-3 text-xs sm:text-sm font-semibold ${
-                                                        isDark ? 'text-gray-300' : 'text-gray-800'
-                                                    }`}>
-                                                        {record.checkInTime ? new Date(record.checkInTime).toLocaleString() : '-'}
-                                                    </td>
-                                                    <td className={`p-2 sm:p-3 text-xs sm:text-sm font-semibold ${
-                                                        isDark ? 'text-gray-300' : 'text-gray-800'
-                                                    }`}>
-                                                        {record.checkOutTime ? new Date(record.checkOutTime).toLocaleString() : '-'}
-                                                    </td>
-                                                    <td className={`p-2 sm:p-3 text-xs sm:text-sm font-semibold ${
-                                                        isDark ? 'text-gray-300' : 'text-gray-800'
-                                                    }`}>
-                                                        {record.workingHours ? record.workingHours.toFixed(2) : '0'}
-                                                    </td>
-                                                    <td className={`p-2 sm:p-3 text-xs sm:text-sm font-semibold ${
-                                                        isDark ? 'text-gray-300' : 'text-gray-800'
-                                                    }`}>
-                                                        {record.attendanceType}
-                                                    </td>
-                                                    <td className="p-2 sm:p-3">
-                                                        <span className={`px-2 py-1 rounded text-xs font-bold ${
-                                                            record.status === 'Present' 
-                                                                ? isDark ? 'bg-green-900 text-green-300' : 'bg-green-100 text-green-800' :
-                                                            record.status === 'Absent' 
-                                                                ? isDark ? 'bg-red-900 text-red-300' : 'bg-red-100 text-red-800' :
-                                                                isDark ? 'bg-yellow-900 text-yellow-300' : 'bg-yellow-100 text-yellow-800'
-                                                        }`}>
-                                                            {record.status}
-                                                        </span>
-                                                    </td>
-                                                    <td className={`p-2 sm:p-3 text-xs font-semibold ${
-                                                        isDark ? 'text-gray-400' : 'text-gray-600'
-                                                    }`}>
-                                                        {record.checkInLocation?.address || '-'}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            {myAttendanceData.length === 0 && (
-                                                <tr>
-                                                    <td colSpan="7" className={`p-4 text-center font-bold ${
-                                                        isDark ? 'text-gray-400' : 'text-gray-500'
-                                                    }`}>
-                                                        No records found
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        )) : (
+                                            <tr>
+                                                <td colSpan="6" className={`p-8 text-center font-semibold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                    No attendance records found
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             )}
 
+            {/* Create User Tab */}
             {activeTab === 'users' && (
-                <div className={`p-6 sm:p-8 rounded-xl transition-colors max-w-3xl ${
-                    isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-white border border-gray-200 shadow-2xl'
+                <div className={`p-8 rounded-xl transition-all max-w-2xl mx-auto ${
+                    isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-white border border-gray-200 shadow-lg'
                 }`}>
-                    <h3 className={`text-2xl font-extrabold mb-6 ${
-                        isDark ? 'text-white' : 'text-gray-900'
-                    }`}>
+                    <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                         Create New User
                     </h3>
                     {message && (
-                        <div className={`mb-4 p-4 rounded-lg font-semibold border ${
+                        <div className={`mb-4 p-4 rounded-lg font-semibold border flex items-center gap-2 ${
                             isDark 
                                 ? 'bg-green-900/30 text-green-300 border-green-700' 
                                 : 'bg-green-50 text-green-700 border-green-200'
                         }`}>
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                             {message}
                         </div>
                     )}
                     {errorMessage && (
-                        <div className={`mb-4 p-4 rounded-lg font-semibold border ${
+                        <div className={`mb-4 p-4 rounded-lg font-semibold border flex items-center gap-2 ${
                             isDark 
                                 ? 'bg-red-900/30 text-red-300 border-red-700' 
                                 : 'bg-red-50 text-red-700 border-red-200'
                         }`}>
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
                             {errorMessage}
                         </div>
                     )}
                     <form onSubmit={handleCreateUser} className="space-y-5">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${
-                                    isDark ? 'text-gray-300' : 'text-gray-700'
-                                }`}>
-                                    Full Name <span className="text-red-500">*</span>
-                                </label>
-                                <input 
-                                    placeholder="e.g., John Doe" 
-                                    className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${
-                                        isDark
-                                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                    }`}
-                                    value={newUser.name} 
-                                    onChange={e => setNewUser({...newUser, name: e.target.value})} 
-                                    required 
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${
-                                    isDark ? 'text-gray-300' : 'text-gray-700'
-                                }`}>
-                                    Email Address <span className="text-red-500">*</span>
-                                </label>
-                                <input 
-                                    placeholder="e.g., john.doe@company.com" 
-                                    type="email" 
-                                    className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${
-                                        isDark
-                                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                    }`}
-                                    value={newUser.email} 
-                                    onChange={e => setNewUser({...newUser, email: e.target.value})} 
-                                    required 
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${
-                                    isDark ? 'text-gray-300' : 'text-gray-700'
-                                }`}>
-                                    Password <span className="text-red-500">*</span>
-                                </label>
-                                <input 
-                                    placeholder="Minimum 6 characters" 
-                                    type="password" 
-                                    className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${
-                                        isDark
-                                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                    }`}
-                                    value={newUser.password} 
-                                    onChange={e => setNewUser({...newUser, password: e.target.value})} 
-                                    required 
-                                    minLength={6}
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${
-                                    isDark ? 'text-gray-300' : 'text-gray-700'
-                                }`}>
-                                    Role <span className="text-red-500">*</span>
-                                </label>
-                                <select 
-                                    className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${
-                                        isDark
-                                            ? 'bg-gray-700 border-gray-600 text-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                            : 'bg-white border-gray-300 text-gray-900 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                    }`}
-                                    value={newUser.role} 
-                                    onChange={e => setNewUser({...newUser, role: e.target.value})}
-                                >
-                                    <option value="Admin">Admin</option>
-                                    <option value="Employee">Employee</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${
-                                    isDark ? 'text-gray-300' : 'text-gray-700'
-                                }`}>
-                                    Department
-                                </label>
-                                <input 
-                                    placeholder="e.g., IT, HR, Sales, Marketing" 
-                                    className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${
-                                        isDark
-                                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                    }`}
-                                    value={newUser.department} 
-                                    onChange={e => setNewUser({...newUser, department: e.target.value})} 
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-bold mb-2 ${
-                                    isDark ? 'text-gray-300' : 'text-gray-700'
-                                }`}>
-                                    Designation
-                                </label>
-                                <input 
-                                    placeholder="e.g., Developer, Manager, Analyst" 
-                                    className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${
-                                        isDark
-                                            ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500'
-                                    }`}
-                                    value={newUser.designation} 
-                                    onChange={e => setNewUser({...newUser, designation: e.target.value})} 
-                                />
-                            </div>
+                            <input placeholder="Full Name" className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500'} focus:outline-none`} value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} required />
+                            <input placeholder="Email Address" type="email" className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500'} focus:outline-none`} value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} required />
+                            <input placeholder="Password (Min 6 chars)" type="password" className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500'} focus:outline-none`} value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})} required minLength={6} />
+                            <select className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white focus:ring-2 focus:ring-purple-500' : 'bg-white border-gray-300 text-gray-900 focus:ring-2 focus:ring-purple-500'} focus:outline-none`} value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}>
+                                <option value="Admin">Admin</option>
+                                <option value="Employee">Employee</option>
+                            </select>
+                            <input placeholder="Department (e.g., IT, HR)" className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500'} focus:outline-none`} value={newUser.department} onChange={e => setNewUser({...newUser, department: e.target.value})} />
+                            <input placeholder="Designation (e.g., Developer)" className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-purple-500'} focus:outline-none`} value={newUser.designation} onChange={e => setNewUser({...newUser, designation: e.target.value})} />
                         </div>
-                        <div className={`p-4 rounded-lg border ${
-                            isDark ? 'bg-gray-700/50 border-gray-600' : 'bg-blue-50 border-blue-200'
-                        }`}>
-                            <p className={`text-xs sm:text-sm font-semibold ${
-                                isDark ? 'text-gray-400' : 'text-blue-700'
-                            }`}>
-                                <span className="font-bold">Note:</span> Super Admin can only create Admin and Employee accounts. Provide the email and password to the user for login.
-                            </p>
-                        </div>
-                        <button 
-                            type="submit" 
-                            className="w-full bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg font-extrabold text-base transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
-                        >
+                        <button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white p-4 rounded-lg font-bold text-base transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]">
                             Create User
                         </button>
                     </form>
                 </div>
             )}
 
+            {/* All Attendance Tab */}
             {activeTab === 'attendance' && (
-                <div className={`p-4 sm:p-6 rounded-xl transition-colors ${
-                    isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-white border border-gray-200 shadow-2xl'
-                }`}>
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-6">
-                        <h3 className={`text-xl sm:text-2xl font-extrabold ${
-                            isDark ? 'text-white' : 'text-gray-900'
-                        }`}>
+                <div className={`p-6 rounded-xl ${isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-white border border-gray-200 shadow-lg'}`}>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
                             All Attendance Records
                         </h3>
                         <button 
                             onClick={handleDownload} 
-                            className={`px-4 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg hover:shadow-xl ${
-                                isDark 
-                                    ? 'bg-green-700 hover:bg-green-600 text-white' 
-                                    : 'bg-green-600 hover:bg-green-700 text-white'
-                            }`}
+                            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2"
                         >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
                             Download Full Report
                         </button>
                     </div>
-                    <div className="overflow-x-auto -mx-4 sm:mx-0">
-                        <div className="inline-block min-w-full align-middle">
-                            <table className="min-w-full text-left border-collapse">
-                                <thead>
-                                    <tr className={isDark ? 'bg-gray-700' : 'bg-gray-100'}>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Employee
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Date
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Check In
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Check Out
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Hours
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Type
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Status
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Location
-                                        </th>
-                                        <th className={`p-3 border font-extrabold text-xs sm:text-sm ${
-                                            isDark ? 'border-gray-600 text-gray-200' : 'border-gray-300 text-gray-800'
-                                        }`}>
-                                            Actions
-                                        </th>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left text-sm">
+                            <thead>
+                                <tr className={`border-b-2 ${isDark ? 'border-gray-700 bg-gray-700/50' : 'border-gray-300 bg-gray-100'}`}>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Employee</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Date</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>In Time</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Out Time</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Hours</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Type</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Status</th>
+                                    <th className={`p-3 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {attendanceData.slice(0, 50).map((record) => (
+                                    <tr key={record._id} className={`border-b transition-colors ${isDark ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                                        <td className={`p-3 font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{record.user?.name || '-'}</td>
+                                        <td className={`p-3 ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>{record.date}</td>
+                                        <td className={`p-3 ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>{record.checkInTime ? new Date(record.checkInTime).toLocaleTimeString() : '-'}</td>
+                                        <td className={`p-3 ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>{record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-'}</td>
+                                        <td className={`p-3 font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>{record.workingHours ? record.workingHours.toFixed(2) + 'h' : '-'}</td>
+                                        <td className={`p-3 ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>{record.attendanceType || '-'}</td>
+                                        <td><span className={`px-3 py-1 rounded-full text-xs font-bold ${getStatusBadgeColor(record.status)}`}>{record.status}</span></td>
+                                        <td className="p-3 flex gap-2">
+                                            <button onClick={() => handleApprove(record._id, 'Approved')} className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold transition-colors">Approve</button>
+                                            <button onClick={() => handleRectify(record._id)} className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-xs font-semibold transition-colors">Rectify</button>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {attendanceData.map((record) => (
-                                        <tr key={record._id} className={`border-b font-semibold transition-colors ${
-                                            isDark ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'
-                                        }`}>
-                                            <td className={`p-3 text-sm font-bold ${
-                                                isDark ? 'text-gray-300' : 'text-gray-800'
-                                            }`}>
-                                                {record.user?.name || '-'}
-                                            </td>
-                                            <td className={`p-3 text-sm font-semibold ${
-                                                isDark ? 'text-gray-300' : 'text-gray-800'
-                                            }`}>
-                                                {record.date}
-                                            </td>
-                                            <td className={`p-3 text-xs sm:text-sm font-semibold ${
-                                                isDark ? 'text-gray-300' : 'text-gray-800'
-                                            }`}>
-                                                {record.checkInTime ? new Date(record.checkInTime).toLocaleString() : '-'}
-                                            </td>
-                                            <td className={`p-3 text-xs sm:text-sm font-semibold ${
-                                                isDark ? 'text-gray-300' : 'text-gray-800'
-                                            }`}>
-                                                {record.checkOutTime ? new Date(record.checkOutTime).toLocaleString() : '-'}
-                                            </td>
-                                            <td className={`p-3 text-sm font-semibold ${
-                                                isDark ? 'text-gray-300' : 'text-gray-800'
-                                            }`}>
-                                                {record.workingHours ? record.workingHours.toFixed(2) : '0'}
-                                            </td>
-                                            <td className={`p-3 text-sm font-semibold ${
-                                                isDark ? 'text-gray-300' : 'text-gray-800'
-                                            }`}>
-                                                {record.attendanceType || '-'}
-                                            </td>
-                                            <td className="p-3">
-                                                <div className="flex flex-col gap-1">
-                                                    <span className={`px-2 py-1 rounded text-xs font-bold ${
-                                                        record.status === 'Present' 
-                                                            ? isDark ? 'bg-green-900 text-green-300' : 'bg-green-100 text-green-800' :
-                                                        record.status === 'Absent' 
-                                                            ? isDark ? 'bg-red-900 text-red-300' : 'bg-red-100 text-red-800' :
-                                                            isDark ? 'bg-yellow-900 text-yellow-300' : 'bg-yellow-100 text-yellow-800'
-                                                    }`}>
-                                                        {record.status}
-                                                    </span>
-                                                    {record.approvalStatus && (
-                                                        <span className={`text-xs font-semibold ${
-                                                            isDark ? 'text-gray-400' : 'text-gray-600'
-                                                        }`}>
-                                                            {record.approvalStatus}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                            <td className={`p-3 text-xs font-semibold ${
-                                                isDark ? 'text-gray-400' : 'text-gray-600'
-                                            }`}>
-                                                {record.checkInLocation?.address || '-'}
-                                            </td>
-                                            <td className="p-3">
-                                                <div className="flex flex-col sm:flex-row gap-2">
-                                                    <button 
-                                                        onClick={() => handleApprove(record._id, 'Approved')} 
-                                                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md hover:shadow-lg"
-                                                    >
-                                                        Approve
-                                                    </button>
-                                                    <button 
-                                                        onClick={() => handleRectify(record._id)} 
-                                                        className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md hover:shadow-lg"
-                                                    >
-                                                        Rectify
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {attendanceData.length === 0 && (
-                                        <tr>
-                                            <td colSpan="9" className={`p-4 text-center font-bold ${
-                                                isDark ? 'text-gray-400' : 'text-gray-500'
-                                            }`}>
-                                                No records found
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             )}

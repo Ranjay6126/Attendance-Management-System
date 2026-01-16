@@ -70,15 +70,10 @@ const Login = () => {
                         </div>
                     </div>
                     
-                    <h1 className={`text-xl sm:text-2xl font-extrabold mb-1 ${
-                        isDark ? 'text-white' : 'text-gray-900'
-                    }`}>
-                        Hat-Boy
-                    </h1>
-                    <h2 className={`text-lg sm:text-xl font-bold mb-2 ${
+                    <h2 className={`text-lg sm:text-xl underline font-bold mb-2 ${
                         isDark ? 'text-gray-300' : 'text-gray-700'
                     }`}>
-                        Attendance_system
+                        Attendance_System
                     </h2>
                     <h3 className={`text-lg sm:text-xl font-bold mb-2 ${
                         isDark ? 'text-blue-400' : 'text-blue-600'
