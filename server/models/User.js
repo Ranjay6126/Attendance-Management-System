@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({
     address: {
         type: String,
     },
+    profileImage: {
+        type: String, // Base64 encoded image or file path
+        default: null,
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
