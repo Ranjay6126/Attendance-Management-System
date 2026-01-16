@@ -204,8 +204,8 @@ const setupSuperAdmin = async (req, res) => {
 
         const user = await User.create({
             name: 'Super Admin',
-            email: 'admin@planningguru.com',
-            password: 'admin123', // Should be changed immediately
+            email: 'superhatboy@gmail.com',
+            password: 'sudo@8848', // Should be changed immediately
             role: 'SuperAdmin',
             department: 'Management',
             designation: 'Director'
