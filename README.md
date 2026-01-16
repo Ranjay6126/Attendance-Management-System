@@ -1,4 +1,4 @@
-# Planning Guru - Attendance Management System
+# HATBOY - Attendance Management System
 
 A professional Attendance Management System built with the MERN stack.
 
@@ -65,4 +65,5 @@ npm run dev
 ## License
 
 Internal Use Only - Planning Guru
+
 
