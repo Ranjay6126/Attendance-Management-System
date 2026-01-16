@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Dark mode support */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
