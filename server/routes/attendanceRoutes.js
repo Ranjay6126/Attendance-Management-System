@@ -10,7 +10,7 @@ const {
     getAnalytics 
 } = require('../controllers/attendanceController');
 const { protect, authorize } = require('../middleware/authMiddleware');
-const upload = require('../middleware/uploadMiddleware');
+const { upload } = require('../middleware/uploadMiddleware');
 
 router.post('/checkin', protect, upload.single('image'), checkIn);
 router.put('/checkout', protect, upload.single('image'), checkOut);
