@@ -64,6 +64,11 @@ npm run dev
 
 ## License
 
-Internal Use Only - Planning Guru
+**License**
+
+For internal use only.
+Paid license. All rights reserved.
+
+
 
 
