@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import AttendanceMarker from '../AttendanceMarker';
+import LeaveRequest from '../LeaveRequest';
+import LeaveHistory from '../LeaveHistory';
 import axios from '../../api/axios';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -9,8 +11,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const EmployeeDashboard = () => {
     const { isDark } = useTheme();
+    const [activeTab, setActiveTab] = useState('dashboard');
     const [attendanceHistory, setAttendanceHistory] = useState([]);
+    const [leaves, setLeaves] = useState([]);
     const [refresh, setRefresh] = useState(false);
+    const [leaveRefresh, setLeaveRefresh] = useState(false);
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -24,10 +29,22 @@ const EmployeeDashboard = () => {
         fetchHistory();
     }, [refresh]);
 
+    useEffect(() => {
+        const fetchLeaves = async () => {
+            try {
+                const { data } = await axios.get('/leaves/my-leaves');
+                setLeaves(data);
+            } catch (error) {
+                console.error('Error fetching leaves', error);
+            }
+        };
+        fetchLeaves();
+    }, [leaveRefresh]);
+
     const stats = {
         Present: attendanceHistory.filter(a => a.status === 'Present' || a.status === 'Pending Approval').length,
         Absent: attendanceHistory.filter(a => a.status === 'Absent').length,
-        Leave: attendanceHistory.filter(a => a.status === 'Leave').length,
+        Leave: leaves.filter(l => l.status === 'Approved').length,
     };
 
     const chartOptions = {
@@ -89,6 +106,31 @@ const EmployeeDashboard = () => {
 
     return (
         <div className="space-y-6">
+            {/* Tab Navigation */}
+            <div className={`flex flex-wrap gap-2 p-1 rounded-lg transition-colors ${
+                isDark ? 'bg-gray-700/50' : 'bg-gray-100'
+            }`}>
+                {['dashboard', 'requestLeave'].map((tab) => (
+                    <button 
+                        key={tab}
+                        onClick={() => setActiveTab(tab)} 
+                        className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all whitespace-nowrap ${
+                            activeTab === tab 
+                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg' 
+                                : isDark 
+                                    ? 'text-gray-300 hover:text-white' 
+                                    : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                    >
+                        {tab === 'dashboard' && '📊 Dashboard'}
+                        {tab === 'requestLeave' && '📝 Request Leave'}
+                    </button>
+                ))}
+            </div>
+
+            {/* Dashboard Tab */}
+            {activeTab === 'dashboard' && (
+                <div className="space-y-6">
             {/* Stats Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className={`p-6 rounded-xl transition-all ${
@@ -256,6 +298,18 @@ const EmployeeDashboard = () => {
                     </div>
                 </div>
             </div>
+                </div>
+            )}
+
+            {/* Request Leave Tab */}
+            {activeTab === 'requestLeave' && (
+                <div className="space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <LeaveRequest isDark={isDark} onSuccess={() => setLeaveRefresh(!leaveRefresh)} />
+                    </div>
+                    <LeaveHistory isDark={isDark} isAdmin={false} refreshKey={leaveRefresh} hideCancel={true} />
+                </div>
+            )}
         </div>
     );
 };

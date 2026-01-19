@@ -3,6 +3,8 @@ import axios from '../../api/axios';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
 import AttendanceMarker from '../AttendanceMarker';
+import LeaveRequest from '../LeaveRequest';
+import LeaveHistory from '../LeaveHistory';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -24,12 +26,58 @@ const AdminDashboard = () => {
     const [rectifyData, setRectifyData] = useState({ status: '', checkInTime: '', checkOutTime: '', attendanceType: '' });
     const [exportFilters, setExportFilters] = useState({ startDate: '', endDate: '', employeeId: '', attendanceType: '' });
     const [refreshMyAttendance, setRefreshMyAttendance] = useState(false);
+    const [leaveRefresh, setLeaveRefresh] = useState(false);
+    const [allLeaves, setAllLeaves] = useState([]);
+    const [adminStats, setAdminStats] = useState({ present: 0, absent: 0, leave: 0 });
+    const [adminLeaves, setAdminLeaves] = useState([]);
 
     useEffect(() => {
         fetchAttendance();
         fetchAnalytics();
         fetchMyAttendance();
-    }, [refreshMyAttendance]);
+    }, [refreshMyAttendance, leaveRefresh]);
+
+    useEffect(() => {
+        updateAdminStats();
+    }, [myAttendanceData, allLeaves]);
+
+    useEffect(() => {
+        fetchAllLeaves();
+        fetchAdminLeaves();
+        updateAdminStats();
+    }, [leaveRefresh]);
+
+    const fetchAllLeaves = async () => {
+        try {
+            const { data } = await axios.get('/leaves/all-leaves');
+            setAllLeaves(data);
+        } catch (error) {
+            console.error('Error fetching leaves', error);
+        }
+    };
+
+    const fetchAdminLeaves = async () => {
+        try {
+            const { data } = await axios.get('/leaves/my-leaves');
+            setAdminLeaves(data);
+        } catch (error) {
+            console.error('Error fetching admin leaves', error);
+        }
+    };
+
+    const updateAdminStats = () => {
+        // Calculate admin's own stats
+        const adminPresent = myAttendanceData.filter(a => a.status === 'Present' || a.status === 'Pending Approval').length;
+        const adminAbsent = myAttendanceData.filter(a => a.status === 'Absent').length;
+        
+        // Get admin's approved leaves
+        const adminLeaves = allLeaves.filter(leave => {
+            const leaveUserId = typeof leave.user === 'object' ? leave.user._id : leave.user;
+            return leaveUserId === user?._id && leave.status === 'Approved';
+        }).length;
+        
+        setAdminStats({ present: adminPresent, absent: adminAbsent, leave: adminLeaves });
+    };
     
     const fetchMyAttendance = async () => {
         try {
@@ -188,7 +236,7 @@ const AdminDashboard = () => {
             <div className={`flex flex-wrap gap-2 p-1 rounded-lg transition-colors ${
                 isDark ? 'bg-gray-700/50' : 'bg-gray-100'
             }`}>
-                {['myAttendance', 'attendance', 'users'].map((tab) => (
+                {['myAttendance', 'requestLeave', 'attendance', 'users'].map((tab) => (
                     <button 
                         key={tab}
                         onClick={() => setActiveTab(tab)} 
@@ -201,6 +249,7 @@ const AdminDashboard = () => {
                         }`}
                     >
                         {tab === 'myAttendance' && '📋 My Attendance'}
+                        {tab === 'requestLeave' && '📝 Request Leave'}
                         {tab === 'attendance' && '👥 Manage Employees'}
                         {tab === 'users' && '➕ Create Employee'}
                     </button>
@@ -291,6 +340,155 @@ const AdminDashboard = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Request Leave Tab */}
+            {activeTab === 'requestLeave' && (
+                <div className="space-y-6">
+                    {/* Admin's Own Stats */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className={`p-6 rounded-xl transition-all ${
+                            isDark 
+                                ? 'bg-gradient-to-br from-green-900 to-green-800 border border-green-700 shadow-lg' 
+                                : 'bg-gradient-to-br from-green-50 to-green-100 border border-green-300 shadow-md'
+                        }`}>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={`text-sm font-semibold ${isDark ? 'text-green-200' : 'text-green-700'}`}>
+                                        My Present Days
+                                    </p>
+                                    <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-green-900'}`}>
+                                        {adminStats.present}
+                                    </p>
+                                </div>
+                                <svg className={`w-12 h-12 ${isDark ? 'text-green-400' : 'text-green-600'}`} fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div className={`p-6 rounded-xl transition-all ${
+                            isDark 
+                                ? 'bg-gradient-to-br from-red-900 to-red-800 border border-red-700 shadow-lg' 
+                                : 'bg-gradient-to-br from-red-50 to-red-100 border border-red-300 shadow-md'
+                        }`}>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={`text-sm font-semibold ${isDark ? 'text-red-200' : 'text-red-700'}`}>
+                                        My Absent Days
+                                    </p>
+                                    <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-red-900'}`}>
+                                        {adminStats.absent}
+                                    </p>
+                                </div>
+                                <svg className={`w-12 h-12 ${isDark ? 'text-red-400' : 'text-red-600'}`} fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div className={`p-6 rounded-xl transition-all ${
+                            isDark 
+                                ? 'bg-gradient-to-br from-amber-900 to-amber-800 border border-amber-700 shadow-lg' 
+                                : 'bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-300 shadow-md'
+                        }`}>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className={`text-sm font-semibold ${isDark ? 'text-amber-200' : 'text-amber-700'}`}>
+                                        My Approved Leaves
+                                    </p>
+                                    <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-amber-900'}`}>
+                                        {adminStats.leave}
+                                    </p>
+                                </div>
+                                <svg className={`w-12 h-12 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <LeaveRequest isDark={isDark} onSuccess={() => setLeaveRefresh(!leaveRefresh)} />
+                    </div>
+
+                    {/* Admin's Own Leave Requests */}
+                    <div className={`p-6 rounded-2xl transition-all ${
+                        isDark 
+                            ? 'bg-gray-800 border border-gray-700 shadow-xl' 
+                            : 'bg-white border border-gray-200 shadow-lg'
+                    }`}>
+                        <h3 className={`text-xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            📅 All Leave Requests (My Applications)
+                        </h3>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className={`border-b-2 ${isDark ? 'border-gray-700 bg-gray-700/50' : 'border-gray-300 bg-gray-100'}`}>
+                                        <th className={`p-4 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Leave Type</th>
+                                        <th className={`p-4 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Start Date</th>
+                                        <th className={`p-4 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>End Date</th>
+                                        <th className={`p-4 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Days</th>
+                                        <th className={`p-4 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Status</th>
+                                        <th className={`p-4 font-bold text-xs uppercase tracking-wider ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Reason/Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {adminLeaves.filter(leave => leave.status === 'Pending' || leave.status === 'Rejected').length > 0 ? (
+                                        adminLeaves
+                                            .filter(leave => leave.status === 'Pending' || leave.status === 'Rejected')
+                                            .map((leave) => (
+                                                <tr key={leave._id} className={`border-b transition-colors ${isDark ? 'border-gray-700 hover:bg-gray-700/50' : 'border-gray-200 hover:bg-gray-50'}`}>
+                                                    <td className={`p-4 text-sm font-semibold ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>
+                                                        {leave.leaveType}
+                                                    </td>
+                                                    <td className={`p-4 text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>
+                                                        {new Date(leave.startDate).toLocaleDateString()}
+                                                    </td>
+                                                    <td className={`p-4 text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>
+                                                        {new Date(leave.endDate).toLocaleDateString()}
+                                                    </td>
+                                                    <td className={`p-4 text-sm font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                                                        {leave.numberOfDays}
+                                                    </td>
+                                                    <td className="p-4">
+                                                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                                            leave.status === 'Pending'
+                                                                ? (isDark ? 'bg-yellow-900/40 text-yellow-300 border border-yellow-700' : 'bg-yellow-50 text-yellow-700 border border-yellow-200')
+                                                                : leave.status === 'Rejected'
+                                                                ? (isDark ? 'bg-red-900/40 text-red-300 border border-red-700' : 'bg-red-50 text-red-700 border border-red-200')
+                                                                : (isDark ? 'bg-green-900/40 text-green-300 border border-green-700' : 'bg-green-50 text-green-700 border border-green-200')
+                                                        }`}>
+                                                            {leave.status === 'Pending' && '⏳ Pending'}
+                                                            {leave.status === 'Rejected' && '❌ Rejected'}
+                                                            {leave.status === 'Approved' && '✅ Approved'}
+                                                        </span>
+                                                    </td>
+                                                    <td className={`p-4 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                                                        <div className="max-w-xs">
+                                                            {leave.comments ? (
+                                                                <p className="break-words">{leave.comments}</p>
+                                                            ) : (
+                                                                <p className={isDark ? 'text-gray-500' : 'text-gray-400'}>-</p>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className={`p-8 text-center font-semibold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                ✅ No pending or rejected leave requests
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <LeaveHistory isDark={isDark} isAdmin={true} refreshKey={leaveRefresh} excludeOwnLeaves={true} />
                 </div>
             )}
 
@@ -417,6 +615,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

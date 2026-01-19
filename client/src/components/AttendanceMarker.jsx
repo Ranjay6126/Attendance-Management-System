@@ -130,24 +130,31 @@ const AttendanceMarker = ({ onSuccess }) => {
             </div>
 
             {mode === 'checkin' && (
-                <div className="mb-5 p-3 rounded-lg bg-gradient-to-r from-indigo-100 to-blue-100 border border-indigo-300">
+                <div className={`mb-5 p-3 rounded-lg border ${
+                    isDark ? 'bg-gradient-to-r from-indigo-900/40 to-blue-900/40 border-indigo-700/50' : 'bg-gradient-to-r from-indigo-100 to-blue-100 border border-indigo-300'
+                }`}>
                     <label className={`block font-bold text-xs sm:text-sm mb-2 ${
-                        isDark ? 'text-gray-300' : 'text-indigo-950'
+                        isDark ? 'text-indigo-300' : 'text-indigo-950'
                     }`}>
                         🏢 Attendance Type
                     </label>
                     <select 
                         className={`w-full p-2.5 sm:p-3 border-2 rounded-lg font-semibold text-xs sm:text-sm transition-all ${
                             isDark
-                                ? 'bg-gray-700 border-gray-600 text-white'
+                                ? 'bg-gradient-to-r from-gray-700 to-gray-600 border-indigo-600/50 text-indigo-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30'
                                 : 'bg-white border-indigo-400 text-gray-900 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200'
                         }`}
+                        style={isDark ? {
+                            colorScheme: 'dark',
+                            backgroundColor: '#1f2937',
+                            color: '#a5f3fc'
+                        } : {}}
                         value={attendanceType}
                         onChange={(e) => setAttendanceType(e.target.value)}
                     >
-                        <option value="Office">🏢 Office</option>
-                        <option value="WFH">💻 Work From Home</option>
-                        <option value="Field">🌍 Field / Client Location</option>
+                        <option value="Office" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>🏢 Office</option>
+                        <option value="WFH" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>💻 Work From Home</option>
+                        <option value="Field" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>🌍 Field / Client Location</option>
                     </select>
                 </div>
             )}
