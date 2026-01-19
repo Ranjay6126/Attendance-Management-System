@@ -306,6 +306,63 @@ const EmployeeDashboard = () => {
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <LeaveRequest isDark={isDark} onSuccess={() => setLeaveRefresh(!leaveRefresh)} />
+                        
+                        {/* My Attendance Stats Section */}
+                        <div className={`p-6 rounded-xl transition-all h-fit ${
+                            isDark 
+                                ? 'bg-gray-800 border border-gray-700 shadow-xl' 
+                                : 'bg-white border border-gray-200 shadow-lg'
+                        }`}>
+                            <h3 className={`text-lg font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                                My Attendance Summary
+                            </h3>
+                            <div className="space-y-4">
+                                <div className={`p-4 rounded-lg flex justify-between items-center transition-transform hover:scale-[1.02] ${
+                                    isDark ? 'bg-green-900/20 border border-green-800' : 'bg-green-50 border border-green-100'
+                                }`}>
+                                    <div>
+                                        <p className={`text-sm font-semibold ${isDark ? 'text-green-300' : 'text-green-700'}`}>My Present Days</p>
+                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-green-100' : 'text-green-800'}`}>{stats.Present}</p>
+                                    </div>
+                                    <div className={`p-3 rounded-full ${isDark ? 'bg-green-800/50 text-green-300' : 'bg-green-100 text-green-600'}`}>
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                
+                                <div className={`p-4 rounded-lg flex justify-between items-center transition-transform hover:scale-[1.02] ${
+                                    isDark ? 'bg-red-900/20 border border-red-800' : 'bg-red-50 border border-red-100'
+                                }`}>
+                                    <div>
+                                        <p className={`text-sm font-semibold ${isDark ? 'text-red-300' : 'text-red-700'}`}>My Absent Days</p>
+                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-red-100' : 'text-red-800'}`}>{stats.Absent}</p>
+                                    </div>
+                                    <div className={`p-3 rounded-full ${isDark ? 'bg-red-800/50 text-red-300' : 'bg-red-100 text-red-600'}`}>
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div className={`p-4 rounded-lg flex justify-between items-center transition-transform hover:scale-[1.02] ${
+                                    isDark ? 'bg-amber-900/20 border border-amber-800' : 'bg-amber-50 border border-amber-100'
+                                }`}>
+                                    <div>
+                                        <p className={`text-sm font-semibold ${isDark ? 'text-amber-300' : 'text-amber-700'}`}>My Approved total no Leaves days</p>
+                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-amber-100' : 'text-amber-800'}`}>{stats.Leave}</p>
+                                    </div>
+                                    <div className={`p-3 rounded-full ${isDark ? 'bg-amber-800/50 text-amber-300' : 'bg-amber-100 text-amber-600'}`}>
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <LeaveHistory isDark={isDark} isAdmin={false} refreshKey={leaveRefresh} hideCancel={true} />
                 </div>
