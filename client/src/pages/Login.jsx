@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from '../components/ThemeToggle';
+import HatBoyLogo from '../assets/hatboy-logo.svg';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -35,7 +36,7 @@ const Login = () => {
     const handleSetup = async () => {
         try {
             await axios.post('/auth/setup');
-            setSetupMsg('Super Admin created! Login with superhatboy@gmail.com / sudo@8848');
+            setSetupMsg('Super Admin created! Login with admin@planningguru.com / admin123');
         } catch (err) {
             setSetupMsg(err.response?.data?.message || 'Setup failed');
         }
@@ -55,9 +56,11 @@ const Login = () => {
             }`}>
                 {/* Logo Section - Above "Sign in as Employee" */}
                 <div className="flex flex-col items-center mb-8">
-                    {/* HatBoy Logo */}
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-lg mb-4">
-                        <div className="text-white text-3xl sm:text-4xl font-bold">HB</div>
+                    {/* Hat Boy logo inside red circular area */}
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 p-1 shadow-lg mb-4 ring-2 ring-red-600">
+                        <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                            <img src={HatBoyLogo} alt="Hat Boy" className="w-20 h-20 sm:w-28 sm:h-28 object-contain" />
+                        </div>
                     </div>
                     
                     <h2 className={`text-lg sm:text-xl underline font-bold mb-2 ${
