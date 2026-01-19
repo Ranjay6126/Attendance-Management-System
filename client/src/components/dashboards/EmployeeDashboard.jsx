@@ -156,21 +156,6 @@ const EmployeeDashboard = () => {
                 {/* Left Column - Attendance Marker and Chart */}
                 <div className="lg:col-span-1 space-y-6">
                     <AttendanceMarker onSuccess={() => setRefresh(!refresh)} />
-                    
-                    <div className={`p-6 rounded-xl transition-all ${
-                        isDark 
-                            ? 'bg-gray-800 border border-gray-700 shadow-xl' 
-                            : 'bg-white border border-gray-200 shadow-lg'
-                    }`}>
-                        <h3 className={`text-lg font-bold mb-6 ${
-                            isDark ? 'text-white' : 'text-gray-900'
-                        }`}>
-                            Monthly Summary
-                        </h3>
-                        <div className="flex justify-center">
-                            <Pie data={data} options={chartOptions} />
-                        </div>
-                    </div>
                 </div>
                 
                 {/* Right Column - History Table */}

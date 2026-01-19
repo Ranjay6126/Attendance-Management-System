@@ -21,8 +21,10 @@ const Login = () => {
         setError('');
         setLoading(true);
         try {
-            const userData = await login(email, password);
-            navigate('/dashboard');
+            const response = await login(email, password);
+            if (response) {
+                navigate('/dashboard');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {
@@ -54,20 +56,8 @@ const Login = () => {
                 {/* Logo Section - Above "Sign in as Employee" */}
                 <div className="flex flex-col items-center mb-8">
                     {/* HatBoy Logo */}
-                    <div className="mb-4 relative">
-                        <img 
-                            src="/logo.png" 
-                            alt="HatBoy Logo" 
-                            className="w-24 h-24 sm:w-32 sm:h-32 object-contain drop-shadow-lg"
-                            onError={(e) => {
-                                e.target.style.display = 'none';
-                                const fallback = e.target.nextElementSibling;
-                                if (fallback) fallback.classList.remove('hidden');
-                            }}
-                        />
-                        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-lg hidden">
-                            <div className="text-white text-3xl sm:text-4xl font-bold">HB</div>
-                        </div>
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-lg mb-4">
+                        <div className="text-white text-3xl sm:text-4xl font-bold">HB</div>
                     </div>
                     
                     <h2 className={`text-lg sm:text-xl underline font-bold mb-2 ${
