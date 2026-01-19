@@ -10,6 +10,9 @@ A professional Attendance Management System built with the MERN stack.
 - **Reports**: Excel export for attendance records.
 - **Rectification**: Managed rectification flow with limits.
 - **Notifications**: 11:00 AM reminder.
+- ** Leave request**
+- ** atomatic absent mark when not attend the the attendance*
+- **safe and sure application**
 
 ## Tech Stack
 
@@ -52,8 +55,8 @@ npm run dev
 4.  Open the browser at `http://localhost:5173`.
 5.  **First Run**: Click "Initialize System (First Run Only)" on the login page to create the Super Admin account.
 6.  **Super Admin Credentials**:
-    -   Email: `admin@planningguru.com`
-    -   Password: `it is safe`
+    -   Email: `superhatboy@gmail.com`
+    -   Password: `it is safe for paid`
 7.  Login and start creating Admins and Employees.
 
 ## Project Structure
@@ -68,6 +71,7 @@ npm run dev
 
 For internal use only.
 Paid license. All rights reserved.
+
 
 
 
