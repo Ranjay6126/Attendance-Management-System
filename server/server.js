@@ -30,9 +30,14 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const leaveRoutes = require('./routes/leaveRoutes');
+const { initializeSchedulers } = require('./scheduler');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/leaves', leaveRoutes);
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/attendance_system')
@@ -59,6 +64,9 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/attendance_
     } catch (err) {
         console.log('Index creation note:', err.message);
     }
+    
+    // Initialize attendance schedulers
+    initializeSchedulers();
 })
 .catch(err => {
     console.error('MongoDB connection error:', err);

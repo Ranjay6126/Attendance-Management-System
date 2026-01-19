@@ -51,6 +51,9 @@ const loginUser = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            department: user.department,
+            designation: user.designation,
+            profileImage: user.profileImage,
             token: generateToken(user._id),
         });
     } catch (error) {
@@ -182,6 +185,7 @@ const getMe = async (req, res) => {
                 role: user.role,
                 department: user.department,
                 designation: user.designation,
+                profileImage: user.profileImage,
             });
         } else {
             res.status(404).json({ message: 'User not found' });
@@ -189,6 +193,39 @@ const getMe = async (req, res) => {
     } catch (error) {
         console.error('Get me error:', error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Upload profile image
+// @route   POST /api/auth/upload-profile-image
+// @access  Private
+const uploadProfileImage = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        // Convert file to base64
+        const base64Image = req.file.buffer.toString('base64');
+
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+            { profileImage: base64Image },
+            { new: true }
+        );
+
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            department: user.department,
+            designation: user.designation,
+            profileImage: user.profileImage,
+        });
+    } catch (error) {
+        console.error('Upload profile image error:', error);
+        res.status(500).json({ message: 'Server error during image upload' });
     }
 };
 
@@ -204,8 +241,8 @@ const setupSuperAdmin = async (req, res) => {
 
         const user = await User.create({
             name: 'Super Admin',
-            email: 'admin@planningguru.com',
-            password: 'admin123', // Should be changed immediately
+            email: 'superhatboy@gmail.com',
+            password: 'sudo@8848', // Should be changed immediately
             role: 'SuperAdmin',
             department: 'Management',
             designation: 'Director'
@@ -228,4 +265,4 @@ const setupSuperAdmin = async (req, res) => {
     }
 };
 
-module.exports = { loginUser, registerUser, getMe, setupSuperAdmin };
+module.exports = { loginUser, registerUser, getMe, setupSuperAdmin, uploadProfileImage };

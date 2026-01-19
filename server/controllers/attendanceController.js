@@ -11,7 +11,7 @@ const getAddressFromCoordinates = (latitude, longitude) => {
     return new Promise((resolve) => {
         try {
             const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-            https.get(url, { headers: { 'User-Agent': 'PlanningGuru/1.0' } }, (res) => {
+            https.get(url, { headers: { 'User-Agent': 'HatBoy/1.0' } }, (res) => {
                 let data = '';
                 res.on('data', (chunk) => { data += chunk; });
                 res.on('end', () => {

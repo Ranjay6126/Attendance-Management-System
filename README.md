@@ -1,4 +1,4 @@
-# HATBOY - Attendance Management System
+# HatBoy attendance_system
 
 A professional Attendance Management System built with the MERN stack.
 
@@ -15,7 +15,7 @@ A professional Attendance Management System built with the MERN stack.
 
 - **Frontend**: React, Tailwind CSS, Chart.js, Axios.
 - **Backend**: Node.js, Express, MongoDB, Mongoose, JWT.
-- **Tools**: Multer (File Uploads), ExcelJS (Reports), Node-cron (Scheduling).
+- **Tools**: Multer (File Uploads), ExcelJS (Reports)
 
 ## Prerequisites
 
@@ -50,10 +50,10 @@ npm run dev
 2.  Start the Backend server.
 3.  Start the Frontend client.
 4.  Open the browser at `http://localhost:5173`.
-5.  **First Run**: Click "Initialize System (First Run Only)" on the login page to create the Super Admin account.
+5.  **First Run**: Run `npm run setup` in the server directory to create the Super Admin account.
 6.  **Super Admin Credentials**:
-    -   Email: `admin@planningguru.com`
-    -   Password: `it is safe`
+    -   Email: `super@gmail.com`
+    -   Password: `sudo@8848`
 7.  Login and start creating Admins and Employees.
 
 ## Project Structure
@@ -64,11 +64,4 @@ npm run dev
 
 ## License
 
-**License**
-
-For internal use only.
-Paid license. All rights reserved.
-
-
-
-
+Internal Use Only - HatBoy attendance_system
