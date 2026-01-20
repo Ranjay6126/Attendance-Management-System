@@ -1,4 +1,6 @@
+// Button to toggle dark/light mode using ThemeContext
 import { useTheme } from '../context/ThemeContext';
+// Icons for visual feedback
 import { Sun, Moon } from 'lucide-react';
 
 const ThemeToggle = () => {

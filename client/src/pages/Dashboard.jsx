@@ -1,10 +1,16 @@
+// Access current authenticated user and logout
 import { useAuth } from '../context/AuthContext';
+// Dark/light theme state for styling
 import { useTheme } from '../context/ThemeContext';
+// Role-based dashboards
 import EmployeeDashboard from '../components/dashboards/EmployeeDashboard';
 import AdminDashboard from '../components/dashboards/AdminDashboard';
 import SuperAdminDashboard from '../components/dashboards/SuperAdminDashboard';
+// App top bar with theme toggle and profile
 import Navbar from '../components/Navbar';
+// Client-side navigation
 import { useNavigate } from 'react-router-dom';
+// Lifecycle hook for notifications
 import { useEffect } from 'react';
 
 const Dashboard = () => {
@@ -17,6 +23,7 @@ const Dashboard = () => {
         navigate('/login');
     };
 
+    // Request Notification permission and schedule reminder at 11:00 AM
     useEffect(() => {
         // Request notification permission
         if (Notification.permission !== 'granted') {

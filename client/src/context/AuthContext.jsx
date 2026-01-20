@@ -1,5 +1,8 @@
+// Global auth state and context
 import { createContext, useState, useEffect, useContext } from 'react';
+// Preconfigured axios client with token injection
 import axios from '../api/axios';
+// Navigation is not used here; provider may be outside Router
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
@@ -11,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     // const navigate = useNavigate(); // Can't use inside provider if provider is outside Router, check App.jsx
 
+    // Restore session if JWT token exists; fetch /auth/me for user profile
     useEffect(() => {
         const checkLoggedIn = async () => {
             const token = localStorage.getItem('token');
@@ -28,6 +32,7 @@ export const AuthProvider = ({ children }) => {
         checkLoggedIn();
     }, []);
 
+    // Perform login and persist JWT in localStorage
     const login = async (email, password) => {
         try {
             const { data } = await axios.post('/auth/login', { email, password });
@@ -39,6 +44,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Clear session token and user state
     const logout = () => {
         localStorage.removeItem('token');
         setUser(null);

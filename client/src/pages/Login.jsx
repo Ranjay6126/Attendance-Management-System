@@ -1,9 +1,16 @@
+// React state management hooks
 import { useState } from 'react';
+// Custom auth context: handles JWT login, logout, and current user
 import { useAuth } from '../context/AuthContext';
+// Navigation helper from React Router
 import { useNavigate } from 'react-router-dom';
+// Preconfigured axios instance with token interceptor
 import axios from '../api/axios';
+// Theme provider (dark/light)
 import { useTheme } from '../context/ThemeContext';
+// Toggle button component for theme switching
 import ThemeToggle from '../components/ThemeToggle';
+// Brand logo displayed in the red circular area
 import HatBoyLogo from '../assets/hatboy-logo.svg';
 
 const Login = () => {
@@ -17,6 +24,7 @@ const Login = () => {
     const [loginRole, setLoginRole] = useState('Employee');
     const [loading, setLoading] = useState(false);
 
+    // Submit login form: calls auth.login and navigates to dashboard
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -33,6 +41,7 @@ const Login = () => {
         }
     };
 
+    // One-time system initialization: creates default Super Admin
     const handleSetup = async () => {
         try {
             await axios.post('/auth/setup');
