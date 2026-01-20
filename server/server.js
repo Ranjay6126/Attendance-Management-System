@@ -1,9 +1,12 @@
+// Core server and framework imports
 const express = require('express');
 const mongoose = require('mongoose');
+// Security and DX middlewares
 const cors = require('cors');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
 const morgan = require('morgan');
+// Utilities
 const path = require('path');
 const cron = require('node-cron');
 const fs = require('fs');
@@ -12,13 +15,13 @@ dotenv.config();
 
 const app = express();
 
-// Ensure uploads directory exists
+// Ensure uploads directory exists (for storing selfie images)
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Middleware
+// Middleware: parse JSON, enable CORS, set secure headers, log requests
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
@@ -27,7 +30,7 @@ app.use(morgan('common'));
 // Static folder for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+// Routes: authentication, attendance, notifications, and leaves
 const authRoutes = require('./routes/authRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
@@ -39,12 +42,12 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/leaves', leaveRoutes);
 
-// Database Connection
+// Database Connection with fallback default URI
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/attendance_system')
 .then(async () => {
     console.log('MongoDB Connected');
     
-    // Create indexes for better performance
+    // Create indexes for better query performance
     const Attendance = require('./models/Attendance');
     const User = require('./models/User');
     
@@ -65,7 +68,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/attendance_
         console.log('Index creation note:', err.message);
     }
     
-    // Initialize attendance schedulers
+    // Initialize attendance schedulers (reminders & auto-absent)
     initializeSchedulers();
 })
 .catch(err => {
@@ -73,7 +76,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/attendance_
     process.exit(1);
 });
 
-// Cron Job for 11:00 AM Notification (Simulated log for now)
+// Cron Job for 11:00 AM Notification (simulated log; real app would push notifications)
 cron.schedule('0 11 * * *', () => {
     console.log('SYSTEM NOTIFICATION: Please mark your attendance!');
     // In a real app, this would push a notification via WebSocket or FCM

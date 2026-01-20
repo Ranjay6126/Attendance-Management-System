@@ -1,6 +1,8 @@
+// Authentication controller: handles login, registration, profile, setup, and profile image upload
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
+// Create a JWT token for a given user id
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d',
@@ -10,6 +12,7 @@ const generateToken = (id) => {
 // @desc    Auth user & get token
 // @route   POST /api/auth/login
 // @access  Public
+// Verify credentials and return user profile plus JWT
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -65,6 +68,7 @@ const loginUser = async (req, res) => {
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Private/Admin
+// Register a new user with role-based permissions and configurable role caps
 const registerUser = async (req, res) => {
     try {
         const { name, email, password, role, department, designation, phone, address } = req.body;
@@ -89,6 +93,30 @@ const registerUser = async (req, res) => {
         const validRoles = ['SuperAdmin', 'Admin', 'Employee'];
         if (role && !validRoles.includes(role)) {
             return res.status(400).json({ message: 'Invalid role. Must be SuperAdmin, Admin, or Employee' });
+        }
+
+        // Enforce maximum counts per role using .env caps (supports "unlimited")
+        const toCap = (val, def) => {
+            if (val === undefined || val === null || val === '') return def;
+            if (String(val).toLowerCase() === 'unlimited') return Infinity;
+            const n = Number(val);
+            return Number.isFinite(n) && n > 0 ? n : def;
+        };
+        const MAX_SUPERADMINS = toCap(process.env.MAX_SUPERADMINS, 1);
+        const MAX_ADMINS = toCap(process.env.MAX_ADMINS, Infinity);
+        const MAX_EMPLOYEES = toCap(process.env.MAX_EMPLOYEES, Infinity);
+
+        if (role) {
+            const currentCount = await User.countDocuments({ role });
+            if (role === 'SuperAdmin' && currentCount >= MAX_SUPERADMINS) {
+                return res.status(400).json({ message: `Maximum SuperAdmin limit (${MAX_SUPERADMINS}) reached` });
+            }
+            if (role === 'Admin' && currentCount >= MAX_ADMINS) {
+                return res.status(400).json({ message: `Maximum Admin limit (${MAX_ADMINS}) reached` });
+            }
+            if (role === 'Employee' && currentCount >= MAX_EMPLOYEES) {
+                return res.status(400).json({ message: `Maximum Employee limit (${MAX_EMPLOYEES}) reached` });
+            }
         }
 
         // Prevent creating another SuperAdmin - only setup script can do that
@@ -174,6 +202,7 @@ const registerUser = async (req, res) => {
 // @desc    Get current user profile
 // @route   GET /api/auth/me
 // @access  Private
+// Return current authenticated user's profile
 const getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
@@ -199,6 +228,7 @@ const getMe = async (req, res) => {
 // @desc    Upload profile image
 // @route   POST /api/auth/upload-profile-image
 // @access  Private
+// Save uploaded profile image as base64 in user document
 const uploadProfileImage = async (req, res) => {
     try {
         if (!req.file) {
@@ -232,6 +262,7 @@ const uploadProfileImage = async (req, res) => {
 // @desc    Setup initial Super Admin
 // @route   POST /api/auth/setup
 // @access  Public (Run once)
+// One-time setup to create the initial Super Admin account
 const setupSuperAdmin = async (req, res) => {
     try {
         const userExists = await User.findOne({ role: 'SuperAdmin' });

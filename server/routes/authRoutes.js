@@ -1,7 +1,10 @@
+// Auth routes: login, registration, profile, setup, and profile image upload
 const express = require('express');
 const router = express.Router();
 const { loginUser, registerUser, getMe, setupSuperAdmin, uploadProfileImage } = require('../controllers/authController');
+// protect: JWT verification; authorize: role guard
 const { protect, authorize } = require('../middleware/authMiddleware');
+// Upload middleware for profile images (Multer)
 const { uploadMiddleware } = require('../middleware/uploadMiddleware');
 
 router.post('/login', loginUser);

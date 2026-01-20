@@ -1,12 +1,15 @@
+// Attendance controller: check-in/out, history, rectification, approval, export, analytics
 const Attendance = require('../models/Attendance');
 const User = require('../models/User');
 const AuditLog = require('../models/AuditLog');
+// Excel export for reports
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+// Reverse geocoding via OpenStreetMap
 const https = require('https');
 
-// Helper for reverse geocoding
+// Helper for reverse geocoding: latitude/longitude -> human-readable address
 const getAddressFromCoordinates = (latitude, longitude) => {
     return new Promise((resolve) => {
         try {
