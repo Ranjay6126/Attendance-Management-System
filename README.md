@@ -66,11 +66,9 @@ npm run dev
 - `server/uploads/`: Stores attendance images locally.
 
 ## License
-
-**License**
-
 For internal use only.
 Paid license. All rights reserved.
+
 
 
 
