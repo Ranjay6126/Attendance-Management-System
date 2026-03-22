@@ -56,7 +56,7 @@ npm run dev
 5.  **First Run**: Click "Initialize System (First Run Only)" on the login page to create the Super Admin account.
 6.  **Super Admin Credentials**:
     -   Email: `superhatboy@gmail.com`
-    -   Password: `it is safe for paid`
+    -   Password: `it is safe for paid` hint : sudo
 7.  Login and start creating Admins and Employees.
 
 ## Project Structure
