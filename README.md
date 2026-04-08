@@ -6,7 +6,7 @@ A professional Attendance Management System built with the MERN stack.
 
 - **Role-Based Access Control**: Super Admin, Admin, Employee.
 - **Attendance Marking**: Webcam capture, Geolocation tagging, Timestamp.
-- **Dashboards**: Dedicated dashboards for each role with charts and stats.
+- **Dashboards**: Dedicated dashboards for each role with charts and stats
 - **Reports**: Excel export for attendance records.
 - **Rectification**: Managed rectification flow with limits.
 - **Notifications**: 11:00 AM reminder.
