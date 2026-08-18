@@ -96,7 +96,7 @@ const Navbar = ({ onLogout }) => {
                                 className="flex items-center gap-2 sm:gap-3 focus:outline-none group"
                             >
                                 {/* Profile Circle */}
-                                <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-white cursor-pointer transition-all ring-2 group-hover:ring-4 ${
+                                <div className={`relative w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-full overflow-hidden flex items-center justify-center font-bold text-white cursor-pointer transition-all ring-2 group-hover:ring-4 ${
                                     isDark 
                                         ? 'bg-gradient-to-br from-purple-500 to-pink-500 ring-purple-400 group-hover:ring-purple-300' 
                                         : 'bg-gradient-to-br from-yellow-300 to-orange-400 ring-white group-hover:ring-gray-100'
@@ -107,7 +107,7 @@ const Navbar = ({ onLogout }) => {
                                         <img 
                                             src={profileImageUrl} 
                                             alt={user?.name} 
-                                            className="w-full h-full rounded-full object-cover"
+                                            className="w-full h-full aspect-square object-cover"
                                         />
                                     ) : (
                                         <span className="text-sm sm:text-base font-bold">
@@ -139,7 +139,7 @@ const Navbar = ({ onLogout }) => {
                                         isDark ? 'border-gray-700' : 'border-gray-200'
                                     }`}>
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white ${
+                                            <div className={`w-14 h-14 aspect-square rounded-full overflow-hidden flex items-center justify-center font-bold text-white flex-shrink-0 ${
                                                 isDark 
                                                     ? 'bg-gradient-to-br from-purple-500 to-pink-500' 
                                                     : 'bg-gradient-to-br from-yellow-300 to-orange-400'
@@ -148,7 +148,7 @@ const Navbar = ({ onLogout }) => {
                                                     <img 
                                                         src={profileImageUrl} 
                                                         alt={user?.name} 
-                                                        className="w-full h-full rounded-full object-cover"
+                                                        className="w-full h-full aspect-square object-cover"
                                                     />
                                                 ) : (
                                                     <span>{getInitials(user?.name || 'U')}</span>
