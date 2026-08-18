@@ -119,19 +119,19 @@ const SuperAdminDashboard = () => {
     return (
         <div className="space-y-6">
             {/* Tab Navigation */}
-            <div className={`flex flex-wrap gap-2 p-1 rounded-lg transition-colors ${
-                isDark ? 'bg-gray-700/50' : 'bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-300'
+            <div className={`grid grid-cols-2 lg:grid-cols-4 gap-2 p-2 rounded-2xl border shadow-lg backdrop-blur-sm transition-colors ${
+                isDark ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-indigo-100'
             }`}>
                 {['myAttendance', 'requestLeave', 'attendance', 'users'].map((tab) => (
                     <button 
                         key={tab}
                         onClick={() => setActiveTab(tab)} 
-                        className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all whitespace-nowrap ${
+                        className={`w-full px-3 py-2.5 rounded-xl font-bold text-sm transition-all whitespace-nowrap hover:-translate-y-0.5 ${
                             activeTab === tab 
-                                ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg scale-105' 
+                                ? 'bg-gradient-to-r from-indigo-600 via-blue-600 to-violet-600 text-white shadow-lg shadow-indigo-500/25'
                                 : isDark 
-                                    ? 'text-gray-300 hover:text-white' 
-                                    : 'text-indigo-700 hover:bg-indigo-50 border border-indigo-300 bg-white'
+                                    ? 'bg-gray-700/70 text-gray-300 hover:bg-gray-600 hover:text-white'
+                                    : 'bg-slate-50 text-indigo-700 hover:bg-indigo-50'
                         }`}
                     >
                         {tab === 'myAttendance' && '📋 My Attendance'}
