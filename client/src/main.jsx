@@ -7,6 +7,12 @@ import './styles/dashboard.css'
 // Root application component with routing and providers
 import App from './App.jsx'
 
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault()
+  window.deferredInstallPrompt = event
+  window.dispatchEvent(new Event('attendance-install-ready'))
+})
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'))
 }
