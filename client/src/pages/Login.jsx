@@ -10,8 +10,6 @@ import axios from '../api/axios';
 import { useTheme } from '../context/ThemeContext';
 // Toggle button component for theme switching
 import ThemeToggle from '../components/ThemeToggle';
-// Brand logo displayed in the red circular area
-import HatBoyLogo from '../assets/hatboy-logo.svg';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -63,19 +61,18 @@ const Login = () => {
             <div className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-2xl transition-colors ${
                 isDark ? 'bg-gray-800/95 border border-gray-700 backdrop-blur-sm' : 'bg-white/95 border border-gray-200 backdrop-blur-sm'
             }`}>
-                {/* Logo Section - Above "Sign in as Employee" */}
+                {/* Brand and sign-in role */}
                 <div className="flex flex-col items-center mb-8">
-                    {/* Hat Boy logo inside red circular area */}
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-red-500 to-red-700 p-1 shadow-lg mb-4 ring-2 ring-red-600">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-indigo-500 to-violet-700 p-1 shadow-lg mb-4 ring-2 ring-indigo-500">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                            <img src={HatBoyLogo} alt="Hat Boy" className="w-20 h-20 sm:w-28 sm:h-28 object-contain" />
+                            <img src="/logo.png" alt="Employees Attendance Management System logo" className="w-full h-full object-contain" />
                         </div>
                     </div>
                     
-                    <h2 className={`text-lg sm:text-xl underline font-bold mb-2 ${
-                        isDark ? 'text-gray-300' : 'text-gray-700'
+                    <h2 className={`text-[clamp(0.58rem,3vw,1.25rem)] whitespace-nowrap underline font-bold mb-2 ${
+                        isDark ? 'text-green-400' : 'text-green-600'
                     }`}>
-                        Attendance_System
+                        Employees Attendance Management System
                     </h2>
                     <h3 className={`text-lg sm:text-xl font-bold mb-2 ${
                         isDark ? 'text-blue-400' : 'text-blue-600'
@@ -85,7 +82,7 @@ const Login = () => {
                     <p className={`text-xs sm:text-sm font-medium ${
                         isDark ? 'text-gray-400' : 'text-gray-500'
                     }`}>
-                        Your attendance, simplified.
+                        Strick ways to mark the Attendance.
                     </p>
                 </div>
 
@@ -164,46 +161,24 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <div className="mt-4 sm:mt-6 flex justify-center gap-4 sm:gap-6 text-xs sm:text-sm font-bold">
-                        {loginRole !== 'Employee' && (
-                            <button 
+                    <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm font-bold">
+                        {[
+                            { role: 'Employee', active: 'bg-blue-600 text-white shadow-md', idle: isDark ? 'bg-gray-700 text-blue-300 hover:bg-gray-600' : 'bg-blue-50 text-blue-700 hover:bg-blue-100' },
+                            { role: 'Admin', active: 'bg-amber-500 text-white shadow-md', idle: isDark ? 'bg-gray-700 text-amber-300 hover:bg-gray-600' : 'bg-amber-50 text-amber-700 hover:bg-amber-100' },
+                            { role: 'Super Admin', active: 'bg-violet-600 text-white shadow-md', idle: isDark ? 'bg-gray-700 text-violet-300 hover:bg-gray-600' : 'bg-violet-50 text-violet-700 hover:bg-violet-100' },
+                        ].map(({ role, active, idle }) => (
+                            <button
+                                key={role}
                                 type="button"
-                                onClick={() => setLoginRole('Employee')} 
-                                className={`transition-colors ${
-                                    isDark 
-                                        ? 'text-blue-400 hover:text-blue-300' 
-                                        : 'text-blue-600 hover:text-blue-800'
+                                onClick={() => setLoginRole(role)}
+                                aria-pressed={loginRole === role}
+                                className={`rounded-lg px-3 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                                    loginRole === role ? active : idle
                                 }`}
                             >
-                                Employee
+                                {role}
                             </button>
-                        )}
-                        {loginRole !== 'Admin' && (
-                            <button 
-                                type="button"
-                                onClick={() => setLoginRole('Admin')} 
-                                className={`transition-colors ${
-                                    isDark 
-                                        ? 'text-blue-400 hover:text-blue-300' 
-                                        : 'text-blue-600 hover:text-blue-800'
-                                }`}
-                            >
-                                Admin
-                            </button>
-                        )}
-                        {loginRole !== 'Super Admin' && (
-                            <button 
-                                type="button"
-                                onClick={() => setLoginRole('Super Admin')} 
-                                className={`transition-colors ${
-                                    isDark 
-                                        ? 'text-blue-400 hover:text-blue-300' 
-                                        : 'text-blue-600 hover:text-blue-800'
-                                }`}
-                            >
-                                Super Admin
-                            </button>
-                        )}
+                        ))}
                     </div>
                 </div>
                 
