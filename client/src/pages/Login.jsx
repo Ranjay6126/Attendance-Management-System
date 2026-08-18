@@ -58,18 +58,18 @@ const Login = () => {
                 <ThemeToggle />
             </div>
 
-            <div className={`w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-2xl transition-colors ${
+            <div className={`w-full max-w-md p-4 sm:p-8 rounded-2xl shadow-2xl transition-colors ${
                 isDark ? 'bg-gray-800/95 border border-gray-700 backdrop-blur-sm' : 'bg-white/95 border border-gray-200 backdrop-blur-sm'
             }`}>
                 {/* Brand and sign-in role */}
                 <div className="flex flex-col items-center mb-8">
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-indigo-500 to-violet-700 p-1 shadow-lg mb-4 ring-2 ring-indigo-500">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-indigo-500 to-violet-700 p-0.5 shadow-lg mb-4 border border-indigo-400">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                             <img src="/logo.png" alt="Employees Attendance Management System logo" className="w-full h-full object-contain" />
                         </div>
                     </div>
                     
-                    <h2 className={`text-[clamp(0.58rem,3vw,1.25rem)] whitespace-nowrap underline font-bold mb-2 ${
+                    <h2 className={`w-full text-center whitespace-nowrap text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl underline font-bold mb-2 ${
                         isDark ? 'text-green-400' : 'text-green-600'
                     }`}>
                         Employees Attendance Management System
