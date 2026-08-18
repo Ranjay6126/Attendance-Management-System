@@ -66,7 +66,7 @@ const Navbar = ({ onLogout }) => {
     const profileImageUrl = user?.profileImage ? `data:image/jpeg;base64,${user.profileImage}` : null;
 
     return (
-        <nav className={`shadow-lg transition-all sticky top-0 z-50 ${
+        <nav className={`w-full rounded-2xl shadow-xl backdrop-blur-xl transition-all sticky top-0 z-50 ${
             isDark 
                 ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700' 
                 : 'bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-b border-blue-400'
