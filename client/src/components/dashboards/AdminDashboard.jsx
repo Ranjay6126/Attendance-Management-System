@@ -233,25 +233,25 @@ const AdminDashboard = () => {
     return (
         <div className="space-y-6">
             {/* Tab Navigation */}
-            <div className={`flex flex-wrap gap-2 p-1 rounded-lg transition-colors ${
-                isDark ? 'bg-gray-700/50' : 'bg-gray-100'
+            <div className={`grid grid-cols-2 lg:grid-cols-4 gap-2 p-2 rounded-2xl border shadow-lg backdrop-blur-sm transition-colors ${
+                isDark ? 'bg-gray-800/80 border-gray-700' : 'bg-white/80 border-blue-100'
             }`}>
                 {['myAttendance', 'requestLeave', 'attendance', 'users'].map((tab) => (
                     <button 
                         key={tab}
                         onClick={() => setActiveTab(tab)} 
-                        className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all whitespace-nowrap ${
+                        className={`w-full px-3 py-2.5 rounded-xl font-bold text-sm transition-all whitespace-nowrap hover:-translate-y-0.5 ${
                             activeTab === tab 
-                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg' 
+                                ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white shadow-lg shadow-blue-500/25'
                                 : isDark 
-                                    ? 'text-gray-300 hover:text-white' 
-                                    : 'text-gray-600 hover:text-gray-900'
+                                    ? 'bg-gray-700/70 text-gray-300 hover:bg-gray-600 hover:text-white'
+                                    : 'bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-700'
                         }`}
                     >
                         {tab === 'myAttendance' && '📋 My Attendance'}
                         {tab === 'requestLeave' && '📝 Request Leave'}
-                        {tab === 'attendance' && '👥 Manage Employees'}
-                        {tab === 'users' && '➕ Create Employee'}
+                        {tab === 'attendance' && '📊 All Records'}
+                        {tab === 'users' && '➕ Create User'}
                     </button>
                 ))}
             </div>
