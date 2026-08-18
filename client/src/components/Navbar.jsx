@@ -70,23 +70,22 @@ const Navbar = ({ onLogout }) => {
                 ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700' 
                 : 'bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-b border-blue-400'
         }`}>
-            <div className="h-full px-3 sm:px-6 py-4">
+            <div className="h-full px-3 sm:px-6 py-3 sm:py-4">
                 <div className="flex items-center justify-between h-full">
                     {/* Logo and Title */}
-                    <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                         <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center font-bold text-white ${
                             isDark ? 'bg-blue-600' : 'bg-white/20'
                         }`}>
-                            HB
+                            EA
                         </div>
-                        <div className="hidden sm:block">
-                            <h1 className="text-white font-bold text-lg sm:text-xl">Hat-Boy</h1>
-                            <p className="text-blue-100 text-xs font-medium">Attendance System</p>
+                        <div className="min-w-0">
+                            <h1 className="text-white font-bold text-xs sm:text-sm md:text-lg truncate">Employees Attendance Management</h1>
                         </div>
                     </div>
 
                     {/* Right Section */}
-                    <div className="flex items-center gap-3 sm:gap-6">
+                    <div className="flex items-center gap-2 sm:gap-6 flex-shrink-0 ml-2">
                         {/* Theme Toggle */}
                         <ThemeToggle />
 
