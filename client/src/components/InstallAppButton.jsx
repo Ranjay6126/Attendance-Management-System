@@ -2,16 +2,13 @@ import { useEffect, useState } from 'react';
 import { Download } from 'lucide-react';
 
 const InstallAppButton = () => {
-    const [installPrompt, setInstallPrompt] = useState(null);
+    const [installPrompt, setInstallPrompt] = useState(() => window.deferredInstallPrompt || null);
 
     useEffect(() => {
-        const handleBeforeInstallPrompt = (event) => {
-            event.preventDefault();
-            setInstallPrompt(event);
-        };
+        const handleInstallReady = () => setInstallPrompt(window.deferredInstallPrompt || null);
 
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('attendance-install-ready', handleInstallReady);
+        return () => window.removeEventListener('attendance-install-ready', handleInstallReady);
     }, []);
 
     const handleInstall = async () => {
@@ -19,6 +16,7 @@ const InstallAppButton = () => {
             installPrompt.prompt();
             await installPrompt.userChoice;
             setInstallPrompt(null);
+            window.deferredInstallPrompt = null;
             return;
         }
 
@@ -26,7 +24,7 @@ const InstallAppButton = () => {
         window.alert(
             isIOS
                 ? 'To install this app, tap Share and then Add to Home Screen.'
-                : 'Use your browser menu and select Install app to add Employees Attendance Management System to this device.'
+                : 'The install prompt is not available yet. Refresh once, then use your browser menu and select Install app to add Employees Attendance Management System to this device.'
         );
     };
 
