@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employees-attendance-v1';
+const CACHE_NAME = 'employees-attendance-v2';
 const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/logo.png'];
 
 self.addEventListener('install', (event) => {
