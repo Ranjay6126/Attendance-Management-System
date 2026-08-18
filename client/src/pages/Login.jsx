@@ -62,14 +62,14 @@ const Login = () => {
                 isDark ? 'bg-gray-800/95 border border-gray-700 backdrop-blur-sm' : 'bg-white/95 border border-gray-200 backdrop-blur-sm'
             }`}>
                 {/* Brand and sign-in role */}
-                <div className="flex flex-col items-center mb-8">
+                <div className="flex flex-col items-center w-full min-w-0 mb-8">
                     <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-indigo-500 to-violet-700 p-0.5 shadow-lg mb-4 border border-indigo-400">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                             <img src="/logo.png" alt="Employees Attendance Management System logo" className="w-full h-full object-contain" />
                         </div>
                     </div>
                     
-                    <h2 className={`w-full text-center whitespace-nowrap text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl underline font-bold mb-2 ${
+                    <h2 className={`self-stretch min-w-0 shrink-0 text-center px-2 sm:px-4 whitespace-nowrap text-[9px] sm:text-[11px] md:text-sm lg:text-base xl:text-lg underline font-bold mb-2 ${
                         isDark ? 'text-green-400' : 'text-green-600'
                     }`}>
                         Employees Attendance Management System
