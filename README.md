@@ -1,4 +1,4 @@
-# HATBOY - Attendance Management System
+# Employees Attendance Management System
 
 A professional Attendance Management System built with the MERN stack.
 
