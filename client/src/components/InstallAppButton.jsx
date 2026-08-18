@@ -39,7 +39,7 @@ const InstallAppButton = () => {
             title="Download Apps"
         >
             <Download size={16} />
-            <span className="hidden lg:inline">Download Apps</span>
+            <span className="hidden sm:inline">Download Apps</span>
         </button>
     );
 };
