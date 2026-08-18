@@ -51,10 +51,15 @@ npm run dev
 3.  Start the Frontend client.
 4.  Open the browser at `http://localhost:5173`.
 5.  **First Run**: Run `npm run setup` in the server directory to create the Super Admin account.
+
 6.  **Super Admin Credentials**:
-    -   Email: `super@gmail.com`
+
+    -   Email: # // superhatboy@gmail.com
+
     -   Password: `sudo@8848`
+    
 7.  Login and start creating Admins and Employees.
+
 
 ## Project Structure
 
