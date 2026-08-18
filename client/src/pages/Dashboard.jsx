@@ -57,7 +57,7 @@ const Dashboard = () => {
         }`}>
             <Navbar onLogout={handleLogout} />
 
-            <main className="dashboard-content container max-w-7xl mx-auto p-3 sm:p-4 lg:p-6">
+            <main className="dashboard-content dashboard-surface container max-w-7xl mx-auto p-3 sm:p-4 lg:p-6">
                 {user.role === 'Employee' && <EmployeeDashboard />}
                 {user.role === 'Admin' && <AdminDashboard />}
                 {user.role === 'SuperAdmin' && <SuperAdminDashboard />}

@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
+import InstallAppButton from './InstallAppButton';
 import axios from '../api/axios';
 
 const Navbar = ({ onLogout }) => {
@@ -74,18 +75,17 @@ const Navbar = ({ onLogout }) => {
                 <div className="flex items-center justify-between h-full">
                     {/* Logo and Title */}
                     <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center font-bold text-white ${
-                            isDark ? 'bg-blue-600' : 'bg-white/20'
-                        }`}>
-                            EA
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white shadow-md ring-2 ring-white/40">
+                            <img src="/logo.png" alt="Employees Attendance Management System logo" className="w-full h-full object-contain" />
                         </div>
                         <div className="min-w-0">
-                            <h1 className="text-white font-bold text-xs sm:text-sm md:text-lg truncate">Employees Attendance Management</h1>
+                            <h1 className="text-white font-bold text-xs sm:text-sm md:text-base leading-tight">Employees Attendance<br />Management System</h1>
                         </div>
                     </div>
 
                     {/* Right Section */}
                     <div className="flex items-center gap-2 sm:gap-6 flex-shrink-0 ml-2">
+                        <InstallAppButton />
                         {/* Theme Toggle */}
                         <ThemeToggle />
 

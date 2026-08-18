@@ -7,6 +7,10 @@ import './styles/dashboard.css'
 // Root application component with routing and providers
 import App from './App.jsx'
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'))
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
