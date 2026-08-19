@@ -3,7 +3,8 @@ import axios from 'axios';
 
 // Production backend URL
 const instance = axios.create({
-    baseURL: 'https://employees-attendance-management-system.onrender.com',
+    // All backend routes are mounted beneath /api (for example, /api/auth/login).
+    baseURL: 'https://employees-attendance-management-system.onrender.com/api',
 });
 
 // Inject Authorization header if JWT token is present
