@@ -69,17 +69,17 @@ const Login = () => {
                         </div>
                     </div>
                     
-                    <h2 className={`self-stretch min-w-0 shrink-0 text-center px-2 sm:px-4 whitespace-nowrap text-[9px] sm:text-[11px] md:text-sm lg:text-base xl:text-lg underline font-bold mb-2 ${
+                    <h2 className={`self-stretch min-w-0 shrink-0 text-center px-1 whitespace-nowrap text-sm sm:text-[11px] md:text-sm lg:text-sm xl:text-base font-bold mb-2 ${
                         isDark ? 'text-green-400' : 'text-green-600'
                     }`}>
-                        Employees Attendance Management System
+                        🙋Employees Attendance Management System🗓️
                     </h2>
-                    <h3 className={`text-lg sm:text-xl font-bold mb-2 ${
+                    <h3 className={`text-lg sm:text-xl font-bold underline mb-2 ${
                         isDark ? 'text-blue-400' : 'text-blue-600'
                     }`}>
                         {loginRole} Sign In
                     </h3>
-                    <p className={`text-xs sm:text-sm font-medium ${
+                    <p className={`text-xs sm:text-sm font-bold ${
                         isDark ? 'text-gray-400' : 'text-gray-500'
                     }`}>
                         Strick ways to mark the Attendance.
@@ -137,7 +137,7 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 sm:p-4 rounded-lg font-bold text-sm sm:text-base transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+                        className="w-full bg-green-300 hover:bg-green-400 text-gray-900 p-3 sm:p-4 rounded-full font-bold text-sm sm:text-base transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
                     >
                         {loading ? 'Signing in...' : 'Sign in'}
                     </button>
@@ -172,7 +172,7 @@ const Login = () => {
                                 type="button"
                                 onClick={() => setLoginRole(role)}
                                 aria-pressed={loginRole === role}
-                                className={`rounded-lg px-3 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                                className={`rounded-full px-3 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                                     loginRole === role ? active : idle
                                 }`}
                             >
