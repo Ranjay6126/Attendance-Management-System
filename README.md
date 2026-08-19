@@ -147,5 +147,4 @@ npm run dev
 
 ## License
 
-Internal Use Only - HatBoy attendance_system
->>>>>>> 2026-01-11-hokx
+Internal Use Only 
