@@ -54,9 +54,9 @@ npm run dev
 
 6.  **Super Admin Credentials**:
 
-    -   Email: # // superhatboy@gmail.com
+    -   Email: superhatboy@gmail.com
 
-    -   Password: `sudo@8848`
+    -   Password: sudo@8848
     
 7.  Login and start creating Admins and Employees.
 
