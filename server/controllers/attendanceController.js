@@ -1,17 +1,20 @@
+// Attendance controller: check-in/out, history, rectification, approval, export, analytics
 const Attendance = require('../models/Attendance');
 const User = require('../models/User');
 const AuditLog = require('../models/AuditLog');
+// Excel export for reports
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+// Reverse geocoding via OpenStreetMap
 const https = require('https');
 
-// Helper for reverse geocoding
+// Helper for reverse geocoding: latitude/longitude -> human-readable address
 const getAddressFromCoordinates = (latitude, longitude) => {
     return new Promise((resolve) => {
         try {
             const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-            https.get(url, { headers: { 'User-Agent': 'PlanningGuru/1.0' } }, (res) => {
+            https.get(url, { headers: { 'User-Agent': 'HatBoy/1.0' } }, (res) => {
                 let data = '';
                 res.on('data', (chunk) => { data += chunk; });
                 res.on('end', () => {
@@ -296,8 +299,20 @@ const exportAttendance = async (req, res) => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Attendance');
 
+        const getEmployeeReference = (user) => {
+            if (!user?._id) return 'Unknown';
+            const initials = (user.name || 'Employee')
+                .split(/\s+/)
+                .filter(Boolean)
+                .map((part) => part[0])
+                .join('')
+                .slice(0, 3)
+                .toUpperCase();
+            return `EMP-${initials || 'USR'}-${user._id.toString().slice(-5).toUpperCase()}`;
+        };
+
         worksheet.columns = [
-            { header: 'Employee ID', key: 'empId', width: 25 },
+            { header: 'Employee ID', key: 'empId', width: 18 },
             { header: 'Name', key: 'name', width: 20 },
             { header: 'Username', key: 'email', width: 25 },
             { header: 'Date', key: 'date', width: 15 },
@@ -317,7 +332,7 @@ const exportAttendance = async (req, res) => {
 
         attendance.forEach(record => {
             worksheet.addRow({
-                empId: record.user ? record.user._id.toString() : 'Unknown',
+                empId: getEmployeeReference(record.user),
                 name: record.user ? record.user.name : 'Unknown',
                 email: record.user ? record.user.email : 'Unknown',
                 date: record.date,

@@ -1,6 +1,8 @@
+// Auth middleware: verifies JWT and authorizes roles
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Ensures request has a valid JWT; attaches user to req
 const protect = async (req, res, next) => {
     let token;
 
@@ -27,6 +29,7 @@ const protect = async (req, res, next) => {
     }
 };
 
+// Restricts access to specified roles
 const authorize = (...roles) => {
     return (req, res, next) => {
         if (!req.user) {

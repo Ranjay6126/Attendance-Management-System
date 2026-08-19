@@ -38,12 +38,12 @@ const setupSuperAdmin = async () => {
 
         // Hash password manually to avoid pre-save hook issues
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('admin123', salt);
+        const hashedPassword = await bcrypt.hash('sudo@8848', salt);
         
         // Create Super Admin
         const superAdmin = await User.create({
             name: 'Super Admin',
-            email: 'admin@planningguru.com',
+            email: 'superhatboy@gmail.com',
             password: hashedPassword,
             role: 'SuperAdmin',
             department: 'Management',
@@ -51,8 +51,8 @@ const setupSuperAdmin = async () => {
         });
 
         console.log('✅ Super Admin created successfully!');
-        console.log('Email: admin@planningguru.com');
-        console.log('Password: admin123');
+        console.log('Email: superhatboy@gmail.com');
+        console.log('Password: sudo@8848');
         console.log('\n⚠️  IMPORTANT: Change the password after first login!');
         
         await mongoose.disconnect();

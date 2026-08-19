@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+/* Dark mode support */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.dashboard-surface {
+  position: relative;
+}
+
+.dashboard-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0.75rem 1rem auto;
+  height: 7rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(120deg, rgb(37 99 235 / 0.12), rgb(124 58 237 / 0.1), rgb(16 185 129 / 0.08));
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.dashboard-surface > * {
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .dashboard-content .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dashboard-content table {
+    min-width: 600px;
+  }
+
+  .dashboard-content input,
+  .dashboard-content select,
+  .dashboard-content textarea {
+    font-size: 16px;
+  }
+}

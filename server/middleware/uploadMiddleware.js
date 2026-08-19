@@ -1,17 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename(req, file, cb) {
-        cb(
-            null,
-            `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-        );
-    },
-});
+// For memory storage (to convert to base64)
+const memoryStorage = multer.memoryStorage();
 
 const checkFileType = (file, cb) => {
     const filetypes = /jpg|jpeg|png/;
@@ -26,10 +17,15 @@ const checkFileType = (file, cb) => {
 };
 
 const upload = multer({
-    storage,
+    storage: memoryStorage,
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
     },
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit
+    }
 });
 
-module.exports = upload;
+const uploadMiddleware = upload.single('profileImage');
+
+module.exports = { upload, uploadMiddleware };

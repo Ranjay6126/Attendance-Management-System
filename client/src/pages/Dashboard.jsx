@@ -1,12 +1,21 @@
+// Access current authenticated user and logout
 import { useAuth } from '../context/AuthContext';
+// Dark/light theme state for styling
+import { useTheme } from '../context/ThemeContext';
+// Role-based dashboards
 import EmployeeDashboard from '../components/dashboards/EmployeeDashboard';
 import AdminDashboard from '../components/dashboards/AdminDashboard';
 import SuperAdminDashboard from '../components/dashboards/SuperAdminDashboard';
+// App top bar with theme toggle and profile
+import Navbar from '../components/Navbar';
+// Client-side navigation
 import { useNavigate } from 'react-router-dom';
+// Lifecycle hook for notifications
 import { useEffect } from 'react';
 
 const Dashboard = () => {
     const { user, logout } = useAuth();
+    const { isDark } = useTheme();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -14,6 +23,7 @@ const Dashboard = () => {
         navigate('/login');
     };
 
+    // Request Notification permission and schedule reminder at 11:00 AM
     useEffect(() => {
         // Request notification permission
         if (Notification.permission !== 'granted') {
@@ -33,25 +43,25 @@ const Dashboard = () => {
         return () => clearInterval(checkTime);
     }, []);
 
-    if (!user) return <div>Loading...</div>;
+    if (!user) return (
+        <div className={`min-h-screen flex items-center justify-center ${
+            isDark ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
+        }`}>
+            <div className="text-xl font-bold">Loading...</div>
+        </div>
+    );
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <nav className="bg-white shadow-sm p-4 mb-6">
-                <div className="container mx-auto flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-blue-600">Planning Guru - Attendance</h1>
-                    <div className="flex items-center gap-4">
-                        <span className="font-semibold">{user.name} ({user.role})</span>
-                        <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
-                    </div>
-                </div>
-            </nav>
+        <div className={`min-h-screen transition-colors ${
+            isDark ? 'bg-gray-900' : 'bg-gray-50'
+        }`}>
+            <Navbar onLogout={handleLogout} />
 
-            <div className="container mx-auto p-4">
+            <main className="dashboard-content dashboard-surface w-full px-3 py-4 sm:px-6 sm:py-6">
                 {user.role === 'Employee' && <EmployeeDashboard />}
                 {user.role === 'Admin' && <AdminDashboard />}
                 {user.role === 'SuperAdmin' && <SuperAdminDashboard />}
-            </div>
+            </main>
         </div>
     );
 };

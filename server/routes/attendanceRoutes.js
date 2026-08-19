@@ -1,3 +1,4 @@
+// Attendance routes: check-in/out, history, rectification, approval, export, analytics
 const express = require('express');
 const router = express.Router();
 const { 
@@ -9,8 +10,9 @@ const {
     exportAttendance,
     getAnalytics 
 } = require('../controllers/attendanceController');
+// protect: JWT verification; authorize: role guard; upload: Multer for image handling
 const { protect, authorize } = require('../middleware/authMiddleware');
-const upload = require('../middleware/uploadMiddleware');
+const { upload } = require('../middleware/uploadMiddleware');
 
 router.post('/checkin', protect, upload.single('image'), checkIn);
 router.put('/checkout', protect, upload.single('image'), checkOut);

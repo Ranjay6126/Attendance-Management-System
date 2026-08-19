@@ -1,3 +1,4 @@
+// Vite configuration for React and Tailwind; dev server proxies API requests
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
