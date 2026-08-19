@@ -1,17 +1,19 @@
 // Axios HTTP client with baseURL and JWT interceptors
 import axios from 'axios';
 
-// Use relative path for Vite proxy in development, or env variable for production
+// Production backend URL
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || '/api',
+    baseURL: 'https://employees-attendance-management-system.onrender.com',
 });
 
 // Inject Authorization header if JWT token is present
 instance.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
+
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
 });
 
@@ -23,6 +25,7 @@ instance.interceptors.response.use(
             localStorage.removeItem('token');
             window.location.href = '/login';
         }
+
         return Promise.reject(error);
     }
 );
