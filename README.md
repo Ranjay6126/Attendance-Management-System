@@ -5,8 +5,7 @@ https://attendance-management-system-client-tttw.onrender.com/login
 <img width="1750" height="899" alt="image12" src="https://github.com/user-attachments/assets/1b4a3de3-881c-45c2-966d-88b4fa5b31b9" />
 <img width="1900" height="980" alt="Screenshot 2026-08-19 211351" src="https://github.com/user-attachments/assets/9686f481-443c-49f7-aa62-f5f19eeac444" />
 
-
-A professional Attendance Management System built with the MERN stack.
+A professional Attendance Management System built with the MERN stack.| Strick ways to Management Attendance .
 
 ## Features
 
@@ -52,7 +51,6 @@ npm install
 npm run dev
 # Client runs on http://localhost:5173
 ```
-
 ## Getting Started
 
 1.  Make sure MongoDB is running.
@@ -74,12 +72,6 @@ npm run dev
 ## License
 For internal use only.
 Paid license. All rights reserved.
-
-
-
-
-
-
 =======
 # HatBoy attendance_system
 
@@ -135,14 +127,15 @@ npm run dev
 4.  Open the browser at `http://localhost:5173`.
 5.  **First Run**: Run `npm run setup` in the server directory to create the Super Admin account.
 
-6.  **Super Admin Credentials**:
 
-    -   Email: superhatboy@gmail.com
+ .
+ As Employees: -   Email: Demo11@gmail.com and Password: Hatboy@#$77
 
-    -   Password: sudo@8848
+   **Super Admin Credentials**:
+   -   Email: superhatboy@gmail.com
+ -   Password: sudo@8848 
     
-7.  Login and start creating Admins and Employees.
-
+8.  Login and start creating Admins and Employees.
 
 ## Project Structure
 
