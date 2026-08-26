@@ -1,9 +1,6 @@
 # Employees Attendance Management System
 https://attendance-management-system-client-tttw.onrender.com/login
-<img width="1865" height="953" alt="Screenshot 2026-08-19 210417" src="https://github.com/user-attachments/assets/e3ad72d2-e666-4669-9b94-38efc0e0082a" />
-<img width="1905" height="983" alt="Screenshot 2026-08-19 211057" src="https://github.com/user-attachments/assets/60d287ac-75d7-4501-b4c5-3a51c1954b96" />
-<img width="1750" height="899" alt="image12" src="https://github.com/user-attachments/assets/1b4a3de3-881c-45c2-966d-88b4fa5b31b9" />
-<img width="1900" height="980" alt="Screenshot 2026-08-19 211351" src="https://github.com/user-attachments/assets/9686f481-443c-49f7-aa62-f5f19eeac444" />
+
 
 A professional Attendance Management System built with the MERN stack.| Strick ways to Management Attendance .
 
