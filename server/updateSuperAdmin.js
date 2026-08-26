@@ -30,7 +30,7 @@ const updateSuperAdmin = async () => {
         const superAdmin = await User.findOne({ role: 'SuperAdmin' });
         
         if (!superAdmin) {
-            console.log('❌ No Super Admin found!');
+            console.log('No Super Admin found!');
             await mongoose.disconnect();
             process.exit(1);
         }
@@ -47,14 +47,14 @@ const updateSuperAdmin = async () => {
         
         await superAdmin.save();
 
-        console.log('✅ Super Admin updated successfully!');
+        console.log('Super Admin updated successfully!');
         console.log('New Email: superhatboy@gmail.com');
         console.log('New Password: sudo@8848');
         
         await mongoose.disconnect();
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error updating Super Admin:', error.message);
+        console.error('Error updating Super Admin:', error.message);
         console.error(error);
         await mongoose.disconnect();
         process.exit(1);

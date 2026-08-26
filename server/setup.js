@@ -50,15 +50,15 @@ const setupSuperAdmin = async () => {
             designation: 'Director'
         });
 
-        console.log('✅ Super Admin created successfully!');
+        console.log('Super Admin created successfully!');
         console.log('Email: superhatboy@gmail.com');
         console.log('Password: sudo@8848');
-        console.log('\n⚠️  IMPORTANT: Change the password after first login!');
+        console.log('\nIMPORTANT: Change the password after first login!');
         
         await mongoose.disconnect();
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error setting up Super Admin:', error.message);
+        console.error('Error setting up Super Admin:', error.message);
         console.error(error);
         await mongoose.disconnect();
         process.exit(1);

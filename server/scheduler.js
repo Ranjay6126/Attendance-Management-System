@@ -10,7 +10,7 @@ dotenv.config();
 const scheduleNotificationReminder = () => {
     // Runs every day at 10:00 AM
     cron.schedule('0 10 * * *', async () => {
-        console.log('🔔 Running 10:00 AM attendance reminder...');
+        console.log('Running 10:00 AM attendance reminder...');
         try {
             const today = new Date().toISOString().split('T')[0];
             const dayOfWeek = new Date().getDay();
@@ -35,12 +35,12 @@ const scheduleNotificationReminder = () => {
                     // Create notification
                     await Notification.create({
                         user: user._id,
-                        title: '📅 Mark Your Attendance',
+                        title: 'Mark Your Attendance',
                         message: 'Good morning! Please mark your attendance for today.',
                         type: 'attendance_reminder'
                     });
                     
-                    console.log(`📢 Reminder sent to ${user.email} - Please mark attendance!`);
+                    console.log(`Reminder sent to ${user.email} - Please mark attendance!`);
                 }
             }
         } catch (error) {
@@ -53,7 +53,7 @@ const scheduleNotificationReminder = () => {
 const scheduleAutoMarkAbsent = () => {
     // Runs every day at 6:00 PM (18:00)
     cron.schedule('0 18 * * *', async () => {
-        console.log('⏰ Running auto-mark absent job...');
+        console.log('Running auto-mark absent job...');
         try {
             const today = new Date().toISOString().split('T')[0];
             const dayOfWeek = new Date().getDay();
@@ -88,17 +88,17 @@ const scheduleAutoMarkAbsent = () => {
                     // Create absence notification
                     await Notification.create({
                         user: user._id,
-                        title: '❌ Marked as Absent',
+                        title: 'Marked as Absent',
                         message: `You were marked as Absent for ${today} as no attendance was recorded.`,
                         type: 'absence_alert'
                     });
                     
                     markedAbsentCount++;
-                    console.log(`❌ ${user.email} marked as Absent`);
+                    console.log(`${user.email} marked as Absent`);
                 }
             }
 
-            console.log(`✅ Auto-mark absent complete: ${markedAbsentCount} users marked absent`);
+            console.log(`Auto-mark absent complete: ${markedAbsentCount} users marked absent`);
         } catch (error) {
             console.error('Error in auto-mark absent scheduler:', error);
         }
@@ -107,13 +107,13 @@ const scheduleAutoMarkAbsent = () => {
 
 // Initialize all schedulers
 const initializeSchedulers = () => {
-    console.log('📅 Initializing attendance schedulers...');
+    console.log('Initializing attendance schedulers...');
     scheduleNotificationReminder();
     scheduleAutoMarkAbsent();
-    console.log('✅ Schedulers initialized successfully');
-    console.log('⏰ Schedulers configured:');
-    console.log('   📢 10:00 AM - Attendance reminder notification');
-    console.log('   ❌ 6:00 PM - Auto-mark absent (if no attendance)');
+    console.log('Schedulers initialized successfully');
+    console.log('Schedulers configured:');
+    console.log('   10:00 AM - Attendance reminder notification');
+    console.log('   6:00 PM - Auto-mark absent (if no attendance)');
     console.log('   (Sundays are excluded from both tasks)');
 };
 
