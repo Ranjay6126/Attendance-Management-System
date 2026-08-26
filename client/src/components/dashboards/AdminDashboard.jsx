@@ -248,10 +248,10 @@ const AdminDashboard = () => {
                                     : 'bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-700'
                         }`}
                     >
-                        {tab === 'myAttendance' && '📋 My Attendance'}
-                        {tab === 'requestLeave' && '📝 Request Leave'}
-                        {tab === 'attendance' && '📊 All Records'}
-                        {tab === 'users' && '➕ Create User'}
+                        {tab === 'myAttendance' && 'My Attendance'}
+                        {tab === 'requestLeave' && 'Request Leave'}
+                        {tab === 'attendance' && 'All Records'}
+                        {tab === 'users' && 'Create User'}
                     </button>
                 ))}
             </div>
@@ -274,7 +274,7 @@ const AdminDashboard = () => {
                         }`}>
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                                 <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-indigo-950'}`}>
-                                    📅 My Attendance History
+                                    My Attendance History
                                 </h3>
                                 <button onClick={async () => {
                                     try {
@@ -331,7 +331,7 @@ const AdminDashboard = () => {
                                         )) : (
                                             <tr>
                                                 <td colSpan="6" className={`p-8 text-center font-semibold ${isDark ? 'text-gray-400' : 'text-indigo-600'}`}>
-                                                    📊 No attendance records found
+                                                    No attendance records found
                                                 </td>
                                             </tr>
                                         )}
@@ -420,7 +420,7 @@ const AdminDashboard = () => {
                             : 'bg-white border border-gray-200 shadow-lg'
                     }`}>
                         <h3 className={`text-xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                            📅 All Leave Requests (My Applications)
+                            All Leave Requests (My Applications)
                         </h3>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
@@ -460,9 +460,9 @@ const AdminDashboard = () => {
                                                                 ? (isDark ? 'bg-red-900/40 text-red-300 border border-red-700' : 'bg-red-50 text-red-700 border border-red-200')
                                                                 : (isDark ? 'bg-green-900/40 text-green-300 border border-green-700' : 'bg-green-50 text-green-700 border border-green-200')
                                                         }`}>
-                                                            {leave.status === 'Pending' && '⏳ Pending'}
-                                                            {leave.status === 'Rejected' && '❌ Rejected'}
-                                                            {leave.status === 'Approved' && '✅ Approved'}
+                                                            {leave.status === 'Pending' && 'Pending'}
+                                                            {leave.status === 'Rejected' && 'Rejected'}
+                                                            {leave.status === 'Approved' && 'Approved'}
                                                         </span>
                                                     </td>
                                                     <td className={`p-4 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -479,7 +479,7 @@ const AdminDashboard = () => {
                                     ) : (
                                         <tr>
                                             <td colSpan="6" className={`p-8 text-center font-semibold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                                                ✅ No pending or rejected leave requests
+                                                No pending or rejected leave requests
                                             </td>
                                         </tr>
                                     )}

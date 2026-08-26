@@ -134,10 +134,10 @@ const SuperAdminDashboard = () => {
                                     : 'bg-slate-50 text-indigo-700 hover:bg-indigo-50'
                         }`}
                     >
-                        {tab === 'myAttendance' && '📋 My Attendance'}
-                        {tab === 'requestLeave' && '📝 Request Leave'}
-                        {tab === 'attendance' && '📊 All Records'}
-                        {tab === 'users' && '➕ Create User'}
+                        {tab === 'myAttendance' && 'My Attendance'}
+                        {tab === 'requestLeave' && 'Request Leave'}
+                        {tab === 'attendance' && 'All Records'}
+                        {tab === 'users' && 'Create User'}
                     </button>
                 ))}
             </div>
@@ -160,7 +160,7 @@ const SuperAdminDashboard = () => {
                         }`}>
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                                 <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-indigo-950'}`}>
-                                    📅 My Attendance History
+                                    My Attendance History
                                 </h3>
                                 <button onClick={async () => {
                                     try {
@@ -207,7 +207,7 @@ const SuperAdminDashboard = () => {
                                         )) : (
                                             <tr>
                                                 <td colSpan="6" className={`p-8 text-center font-semibold ${isDark ? 'text-gray-400' : 'text-indigo-600'}`}>
-                                                    📊 No attendance records found
+                                                    No attendance records found
                                                 </td>
                                             </tr>
                                         )}
@@ -235,7 +235,7 @@ const SuperAdminDashboard = () => {
                     isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 shadow-2xl'
                 }`}>
                     <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-green-950'}`}>
-                        ➕ Create New User
+                        Create New User
                     </h3>
                     {message && (
                         <div className={`mb-4 p-4 rounded-lg font-semibold border flex items-center gap-2 ${
@@ -270,7 +270,7 @@ const SuperAdminDashboard = () => {
                             <input placeholder="Designation (e.g., Developer)" className={`w-full p-3.5 rounded-lg border-2 transition-all font-medium ${isDark ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500' : 'bg-white border-green-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-green-500'} focus:outline-none`} value={newUser.designation} onChange={e => setNewUser({...newUser, designation: e.target.value})} />
                         </div>
                         <button type="submit" className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-4 rounded-lg font-bold text-base transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]">
-                            ✅ Create User
+                            Create User
                         </button>
                     </form>
                 </div>
@@ -281,7 +281,7 @@ const SuperAdminDashboard = () => {
                 <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800 border border-gray-700 shadow-xl' : 'bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 shadow-2xl'}`}>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                         <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-amber-950'}`}>
-                            📊 All Attendance Records
+                            All Attendance Records
                         </h3>
                         <button 
                             onClick={handleDownload} 
@@ -319,7 +319,7 @@ const SuperAdminDashboard = () => {
                                         <td><span className={`px-3 py-1 rounded-full text-xs font-bold ${getStatusBadgeColor(record.status)}`}>{record.status}</span></td>
                                         <td className="p-4 flex gap-2">
                                             <button onClick={() => handleApprove(record._id, 'Approved')} className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-3 py-1 rounded text-xs font-semibold transition-all shadow-md hover:shadow-lg">✓ Approve</button>
-                                            <button onClick={() => handleRectify(record._id)} className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white px-3 py-1 rounded text-xs font-semibold transition-all shadow-md hover:shadow-lg">✎ Rectify</button>
+                                            <button onClick={() => handleRectify(record._id)} className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white px-3 py-1 rounded text-xs font-semibold transition-all shadow-md hover:shadow-lg">Rectify</button>
                                         </td>
                                     </tr>
                                 ))}

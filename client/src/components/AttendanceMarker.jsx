@@ -136,7 +136,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                     <label className={`block font-bold text-xs sm:text-sm mb-2 ${
                         isDark ? 'text-indigo-300' : 'text-indigo-950'
                     }`}>
-                        🏢 Attendance Type
+                        Attendance Type
                     </label>
                     <select 
                         className={`w-full p-2.5 sm:p-3 border-2 rounded-lg font-semibold text-xs sm:text-sm transition-all ${
@@ -152,9 +152,9 @@ const AttendanceMarker = ({ onSuccess }) => {
                         value={attendanceType}
                         onChange={(e) => setAttendanceType(e.target.value)}
                     >
-                        <option value="Office" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>🏢 Office</option>
-                        <option value="WFH" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>💻 Work From Home</option>
-                        <option value="Field" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>🌍 Field / Client Location</option>
+                        <option value="Office" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>Office</option>
+                        <option value="WFH" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>Work From Home</option>
+                        <option value="Field" style={isDark ? { backgroundColor: '#1f2937', color: '#a5f3fc' } : {}}>Field / Client Location</option>
                     </select>
                 </div>
             )}
@@ -187,7 +187,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                                 : 'bg-gradient-to-r from-indigo-700 to-blue-800 text-white hover:from-indigo-800 hover:to-blue-900 shadow-lg'
                         }`}
                     >
-                        📸 Capture Photo
+                        Capture Photo
                     </button>
                 ) : (
                     <button 
@@ -201,7 +201,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                                 : 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700 shadow-lg'
                         }`}
                     >
-                        🔄 Retake
+                        Retake
                     </button>
                 )}
                 
@@ -217,7 +217,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                                 : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-lg'
                     }`}
                 >
-                    <MapPin size={16} /> {location ? '📍 Location Captured' : '📍 Get Location'}
+                    <MapPin size={16} /> {location ? 'Location Captured' : 'Get Location'}
                 </button>
             </div>
 
@@ -230,7 +230,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                         : 'bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 text-white hover:from-indigo-700 hover:via-blue-700 hover:to-purple-700'
                 }`}
             >
-                {loading ? '⏳ Processing...' : <><CheckCircle size={20} /> Submit Attendance</>}
+                {loading ? 'Processing...' : <><CheckCircle size={20} /> Submit Attendance</>}
             </button>
         </div>
     );

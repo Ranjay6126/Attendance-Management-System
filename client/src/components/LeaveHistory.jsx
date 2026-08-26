@@ -96,11 +96,11 @@ const LeaveHistory = ({ isDark, isAdmin = false, refreshKey, hideCancel = false,
 
     const getStatusIcon = (status) => {
         switch (status) {
-            case 'Approved': return '✅';
-            case 'Rejected': return '❌';
-            case 'Pending': return '⏳';
-            case 'Cancelled': return '🚫';
-            default: return '📋';
+            case 'Approved': return '';
+            case 'Rejected': return '';
+            case 'Pending': return '';
+            case 'Cancelled': return '';
+            default: return '';
         }
     };
 
@@ -111,7 +111,7 @@ const LeaveHistory = ({ isDark, isAdmin = false, refreshKey, hideCancel = false,
                 : 'bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-300 shadow-2xl'
         }`}>
             <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-indigo-950'}`}>
-                📅 {isAdmin ? 'All Leave Requests' : 'My Leave History'}
+                {isAdmin ? 'All Leave Requests' : 'My Leave History'}
             </h3>
 
             {message && (
@@ -143,7 +143,7 @@ const LeaveHistory = ({ isDark, isAdmin = false, refreshKey, hideCancel = false,
             {loading ? (
                 <div className="text-center py-8">
                     <p className={`text-lg font-semibold ${isDark ? 'text-gray-300' : 'text-indigo-600'}`}>
-                        ⏳ Loading leave requests...
+                        Loading leave requests...
                     </p>
                 </div>
             ) : leaves.length > 0 ? (
@@ -200,7 +200,7 @@ const LeaveHistory = ({ isDark, isAdmin = false, refreshKey, hideCancel = false,
                                                 onClick={() => handleCancel(leave._id)}
                                                 className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-3 py-1 rounded text-xs font-semibold transition-all shadow-md hover:shadow-lg"
                                             >
-                                                🚫 Cancel
+                                                Cancel
                                             </button>
                                         </td>
                                     )}
@@ -212,7 +212,7 @@ const LeaveHistory = ({ isDark, isAdmin = false, refreshKey, hideCancel = false,
             ) : (
                 <div className={`text-center py-8 p-4 rounded-lg ${isDark ? 'bg-gray-700/30' : 'bg-indigo-50/50'}`}>
                     <p className={`text-lg font-semibold ${isDark ? 'text-gray-300' : 'text-indigo-600'}`}>
-                        📋 No leave requests found
+                        No leave requests found
                     </p>
                 </div>
             )}

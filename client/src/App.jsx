@@ -12,16 +12,18 @@ function App() {
     <ThemeProvider>
       <Router>
         <AuthProvider>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            
-            <Route element={<PrivateRoute />}>
-               <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
+          <div className="simple-ui">
+            <Routes>
+              <Route path="/login" element={<Login />} />
 
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-            <Route path="/unauthorized" element={<div>Unauthorized</div>} />
-          </Routes>
+              <Route element={<PrivateRoute />}>
+                 <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
+
+              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/unauthorized" element={<div>Unauthorized</div>} />
+            </Routes>
+          </div>
         </AuthProvider>
       </Router>
     </ThemeProvider>

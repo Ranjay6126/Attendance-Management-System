@@ -66,16 +66,16 @@ const Navbar = ({ onLogout }) => {
     const profileImageUrl = user?.profileImage ? `data:image/jpeg;base64,${user.profileImage}` : null;
 
     return (
-        <nav className={`w-full rounded-2xl shadow-xl backdrop-blur-xl transition-all sticky top-0 z-50 ${
+        <nav className={`w-full border-b transition-colors sticky top-0 z-50 ${
             isDark 
-                ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700' 
-                : 'bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-b border-blue-400'
+                ? 'bg-gray-900 border-gray-700'
+                : 'bg-blue-700 border-blue-800'
         }`}>
             <div className="h-full px-3 sm:px-6 py-3 sm:py-4">
                 <div className="flex items-center justify-between h-full">
                     {/* Logo and Title */}
                     <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white shadow-md ring-2 ring-white/40">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded overflow-hidden bg-white border border-white/40">
                             <img src="/logo.png" alt="Employees Attendance Management System logo" className="w-full h-full object-contain" />
                         </div>
                         <div className="min-w-0">
@@ -98,8 +98,8 @@ const Navbar = ({ onLogout }) => {
                                 {/* Profile Circle */}
                                 <div className={`relative w-10 h-10 sm:w-12 sm:h-12 aspect-square rounded-full overflow-hidden flex items-center justify-center font-bold text-white cursor-pointer transition-all ring-2 group-hover:ring-4 ${
                                     isDark 
-                                        ? 'bg-gradient-to-br from-purple-500 to-pink-500 ring-purple-400 group-hover:ring-purple-300' 
-                                        : 'bg-gradient-to-br from-yellow-300 to-orange-400 ring-white group-hover:ring-gray-100'
+                                        ? 'bg-blue-600 ring-blue-400 group-hover:ring-blue-300'
+                                        : 'bg-blue-500 ring-white group-hover:ring-gray-100'
                                 }`}
                                 title="Click to view profile options"
                                 >
@@ -129,7 +129,7 @@ const Navbar = ({ onLogout }) => {
 
                             {/* Dropdown Menu */}
                             {isDropdownOpen && (
-                                <div className={`absolute right-0 mt-2 w-56 rounded-xl shadow-2xl transition-all z-50 ${
+                                <div className={`absolute right-0 mt-2 w-56 rounded-lg border transition-all z-50 ${
                                     isDark 
                                         ? 'bg-gray-800 border border-gray-700' 
                                         : 'bg-white border border-gray-200'
@@ -141,8 +141,8 @@ const Navbar = ({ onLogout }) => {
                                         <div className="flex items-center gap-3">
                                             <div className={`w-14 h-14 aspect-square rounded-full overflow-hidden flex items-center justify-center font-bold text-white flex-shrink-0 ${
                                                 isDark 
-                                                    ? 'bg-gradient-to-br from-purple-500 to-pink-500' 
-                                                    : 'bg-gradient-to-br from-yellow-300 to-orange-400'
+                                                    ? 'bg-blue-600'
+                                                    : 'bg-blue-500'
                                             }`}>
                                                 {profileImageUrl ? (
                                                     <img 

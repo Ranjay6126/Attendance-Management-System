@@ -1,0 +1,39 @@
+/* A restrained, classroom-project visual system. */
+.simple-ui .dashboard-surface::before {
+  display: none;
+}
+
+.simple-ui .dashboard-content [class*='bg-gradient'] {
+  background-image: none !important;
+}
+
+.simple-ui .dashboard-content button[class*='bg-gradient'] {
+  background-color: #2563eb !important;
+  color: #fff !important;
+}
+
+.simple-ui .dashboard-content button[class*='bg-gradient']:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.simple-ui .dashboard-content [class*='shadow-'] {
+  box-shadow: none !important;
+}
+
+.simple-ui .dashboard-content [class*='rounded-2xl'] {
+  border-radius: 0.5rem;
+}
+
+.simple-ui .dashboard-content [class*='backdrop-'] {
+  backdrop-filter: none !important;
+}
+
+.simple-ui .dashboard-content table th {
+  background-image: none !important;
+  background-color: #e5e7eb !important;
+  color: #1f2937 !important;
+}
+
+.simple-ui .dashboard-content table tr:hover {
+  background-color: #f3f4f6 !important;
+}

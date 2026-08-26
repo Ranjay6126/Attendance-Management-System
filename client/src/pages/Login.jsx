@@ -51,19 +51,19 @@ const Login = () => {
 
     return (
         <div className={`min-h-screen flex items-center justify-center transition-colors px-4 py-8 ${
-            isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
+            isDark ? 'bg-gray-900' : 'bg-slate-100'
         }`}>
             {/* Theme Toggle - Top Right */}
             <div className="fixed top-4 right-4 z-50">
                 <ThemeToggle />
             </div>
 
-            <div className={`w-full max-w-md p-4 sm:p-8 rounded-2xl shadow-2xl transition-colors ${
-                isDark ? 'bg-gray-800/95 border border-gray-700 backdrop-blur-sm' : 'bg-white/95 border border-gray-200 backdrop-blur-sm'
+            <div className={`w-full max-w-md p-4 sm:p-8 rounded-lg border transition-colors ${
+                isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'
             }`}>
                 {/* Brand and sign-in role */}
                 <div className="flex flex-col items-center w-full min-w-0 mb-8">
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-indigo-500 to-violet-700 p-0.5 shadow-lg mb-4 border border-indigo-400">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white p-0.5 mb-4 border-2 border-blue-600">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                             <img src="/logo.png" alt="Employees Attendance Management System logo" className="w-full h-full object-contain" />
                         </div>
@@ -72,7 +72,7 @@ const Login = () => {
                     <h2 className={`self-stretch min-w-0 shrink-0 text-center px-1 whitespace-nowrap text-sm sm:text-[11px] md:text-sm lg:text-sm xl:text-base font-bold mb-2 ${
                         isDark ? 'text-green-400' : 'text-green-600'
                     }`}>
-                        🙋Employees Attendance Management System🗓️
+                        Employees Attendance Management System
                     </h2>
                     <h3 className={`text-lg sm:text-xl font-bold underline mb-2 ${
                         isDark ? 'text-blue-400' : 'text-blue-600'
@@ -137,7 +137,7 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-blue-400 hover:bg-blue-500 text-gray-900 p-3 sm:p-4 rounded-full font-bold text-sm sm:text-base transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 sm:p-4 rounded-lg font-semibold text-sm sm:text-base transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? 'Signing in...' : 'Sign in'}
                     </button>
@@ -163,16 +163,16 @@ const Login = () => {
 
                     <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm font-bold">
                         {[
-                            { role: 'Employee', active: 'bg-blue-600 text-white shadow-md', idle: isDark ? 'bg-gray-700 text-blue-300 hover:bg-gray-600' : 'bg-blue-50 text-blue-700 hover:bg-blue-100' },
-                            { role: 'Admin', active: 'bg-amber-500 text-white shadow-md', idle: isDark ? 'bg-gray-700 text-amber-300 hover:bg-gray-600' : 'bg-amber-50 text-amber-700 hover:bg-amber-100' },
-                            { role: 'Super Admin', active: 'bg-violet-600 text-white shadow-md', idle: isDark ? 'bg-gray-700 text-violet-300 hover:bg-gray-600' : 'bg-violet-50 text-violet-700 hover:bg-violet-100' },
+                            { role: 'Employee', active: 'bg-blue-600 text-white', idle: isDark ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300' },
+                            { role: 'Admin', active: 'bg-blue-600 text-white', idle: isDark ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300' },
+                            { role: 'Super Admin', active: 'bg-blue-600 text-white', idle: isDark ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300' },
                         ].map(({ role, active, idle }) => (
                             <button
                                 key={role}
                                 type="button"
                                 onClick={() => setLoginRole(role)}
                                 aria-pressed={loginRole === role}
-                                className={`rounded-full px-3 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                                className={`rounded-lg px-3 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                                     loginRole === role ? active : idle
                                 }`}
                             >

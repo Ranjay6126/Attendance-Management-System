@@ -122,8 +122,8 @@ const EmployeeDashboard = () => {
                                     : 'bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-700'
                         }`}
                     >
-                        {tab === 'dashboard' && '📊 Dashboard'}
-                        {tab === 'requestLeave' && '📝 Request Leave'}
+                        {tab === 'dashboard' && 'Dashboard'}
+                        {tab === 'requestLeave' && 'Request Leave'}
                     </button>
                 ))}
             </div>

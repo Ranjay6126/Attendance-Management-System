@@ -59,7 +59,7 @@ const LeaveRequest = ({ isDark, onSuccess }) => {
                 : 'bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-300 shadow-2xl'
         }`}>
             <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-purple-950'}`}>
-                📝 Request Leave
+                Request Leave
             </h3>
 
             {message && (
@@ -103,14 +103,14 @@ const LeaveRequest = ({ isDark, onSuccess }) => {
                                 : 'bg-white border-purple-300 text-gray-900 focus:ring-2 focus:ring-purple-500'
                         } focus:outline-none`}
                     >
-                        <option value="Sick Leave">🤒 Sick Leave</option>
-                        <option value="Casual Leave">😴 Casual Leave</option>
-                        <option value="Paid Leave">💰 Paid Leave</option>
-                        <option value="Unpaid Leave">📌 Unpaid Leave</option>
-                        <option value="Maternity Leave">👶 Maternity Leave</option>
-                        <option value="Paternity Leave">👨‍👧 Paternity Leave</option>
-                        <option value="Bereavement Leave">🙏 Bereavement Leave</option>
-                        <option value="Other">📋 Other</option>
+                        <option value="Sick Leave">Sick Leave</option>
+                        <option value="Casual Leave">Casual Leave</option>
+                        <option value="Paid Leave">Paid Leave</option>
+                        <option value="Unpaid Leave">Unpaid Leave</option>
+                        <option value="Maternity Leave">Maternity Leave</option>
+                        <option value="Paternity Leave">Paternity Leave</option>
+                        <option value="Bereavement Leave">Bereavement Leave</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
 
@@ -201,7 +201,7 @@ const LeaveRequest = ({ isDark, onSuccess }) => {
                             : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
                     }`}
                 >
-                    {loading ? '⏳ Submitting...' : '✅ Submit Leave Request'}
+                    {loading ? 'Submitting...' : 'Submit Leave Request'}
                 </button>
             </form>
         </div>
