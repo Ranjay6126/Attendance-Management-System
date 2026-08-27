@@ -1,145 +1,104 @@
 # Employees Attendance Management System
-https://attendance-management-system-client-tttw.onrender.com/login
 
+Live Demo: https://attendance-management-system-client-tttw.onrender.com/login
 
-A professional Attendance Management System built with the MERN stack.| Strick ways to Management Attendance .
+A professional attendance tracking app built with the MERN stack. Simple, secure, and a strict way to manage employee attendance.
 
-## Features
+---
 
-- **Role-Based Access Control**: Super Admin, Admin, Employee.
-- **Attendance Marking**: Webcam capture, Geolocation tagging, Timestamp.
-- **Dashboards**: Dedicated dashboards for each role with charts and stats
-- **Reports**: Excel export for attendance records.
-- **Rectification**: Managed rectification flow with limits.
-- **Notifications**: 11:00 AM reminder.
-- ** Leave request**
-- ** atomatic absent mark when not attend the the attendance*
-- **safe and sure application**
+## What It Does
+
+- **Three Roles:** Super Admin, Admin, Employee — each with their own dashboard.
+- **Mark Attendance:** Snap a selfie + allow location. Timestamps get logged automatically.
+- **Auto Absent:** If you don't mark attendance, you're marked absent — no exceptions.
+- **Leave Requests:** Employees apply, admins approve or reject.
+- **Dashboards & Charts:** Each role gets stats and visual summaries.
+- **Excel Reports:** Download attendance records as XLSX.
+- **Rectification:** Controlled rectification flow with usage limits.
+- **Daily Reminder:** Automated 11:00 AM notification so nobody forgets.
+- **Secure:** JWT auth, encrypted logins, safe all around.
+
+---
 
 ## Tech Stack
 
-- **Frontend**: React, Tailwind CSS, Chart.js, Axios.
-- **Backend**: Node.js, Express, MongoDB, Mongoose, JWT.
-- **Tools**: Multer (File Uploads), ExcelJS (Reports), Node-cron (Scheduling).
+- **Frontend:** React, Tailwind CSS, Chart.js, Axios
+- **Backend:** Node.js, Express, MongoDB, Mongoose, JWT
+- **Tools:** Multer (image uploads), ExcelJS (reports), Node-cron (scheduler)
 
-## Prerequisites
+---
 
-- Node.js installed.
-- MongoDB installed and running locally on `mongodb://localhost:27017`.
+## Before You Start
 
-## Setup & Installation
+- Install Node.js
+- Install MongoDB and make sure it's running on `mongodb://localhost:27017`
 
-### 1. Backend
+---
+
+## Setup
+
+### 1. Backend (port 5000)
 
 ```bash
 cd server
 npm install
-# Start the server
 npm start
-# Server runs on http://localhost:5000
 ```
 
-### 2. Frontend
+### 2. Frontend (port 5173)
 
 ```bash
 cd client
 npm install
-# Start the client
 npm run dev
-# Client runs on http://localhost:5173
 ```
-## Getting Started
 
-1.  Make sure MongoDB is running.
-2.  Start the Backend server.
-3.  Start the Frontend client.
-4.  Open the browser at `http://localhost:5173`.
-5.  **First Run**: Click "Initialize System (First Run Only)" on the login page to create the Super Admin account.
-6.  **Super Admin Credentials**:
-    -   Email: `superhatboy@gmail.com`
-    -   Password: `it is safe for paid` hint : sudo
-7.  Login and start creating Admins and Employees.
+---
 
-## Project Structure
+## How to Run
 
-- `server/`: Backend API and Database Logic.
-- `client/`: Frontend React Application.
-- `server/uploads/`: Stores attendance images locally.
+1. Make sure MongoDB is running.
+2. Start the backend server (`npm start` inside `server/`).
+3. Start the frontend client (`npm run dev` inside `client/`).
+4. Open your browser and go to `http://localhost:5173`.
 
-## License
-For internal use only.
-Paid license. All rights reserved.
-=======
-# HatBoy attendance_system
+### First Run
 
-A professional Attendance Management System built with the MERN stack.
+On the login page, click **"Initialize System (First Run Only)"** to create the Super Admin account.
 
-## Features
-
-- **Role-Based Access Control**: Super Admin, Admin, Employee.
-- **Attendance Marking**: Webcam capture, Geolocation tagging, Timestamp.
-- **Dashboards**: Dedicated dashboards for each role with charts and stats.
-- **Reports**: Excel export for attendance records.
-- **Rectification**: Managed rectification flow with limits.
-- **Notifications**: 11:00 AM reminder.
-
-## Tech Stack
-
-- **Frontend**: React, Tailwind CSS, Chart.js, Axios.
-- **Backend**: Node.js, Express, MongoDB, Mongoose, JWT.
-- **Tools**: Multer (File Uploads), ExcelJS (Reports)
-
-## Prerequisites
-
-- Node.js installed.
-- MongoDB installed and running locally on `mongodb://localhost:27017`.
-
-## Setup & Installation
-
-### 1. Backend
+Or run the setup script:
 
 ```bash
 cd server
-npm install
-# Start the server
-npm start
-# Server runs on http://localhost:5000
+npm run setup
 ```
 
-### 2. Frontend
+---
 
-```bash
-cd client
-npm install
-# Start the client
-npm run dev
-# Client runs on http://localhost:5173
-```
+## Demo Accounts
 
-## Getting Started
+**Super Admin**
+- Email: `superhatboy@gmail.com`
+- Password: `sudo@8848`
 
-1.  Make sure MongoDB is running.
-2.  Start the Backend server.
-3.  Start the Frontend client.
-4.  Open the browser at `http://localhost:5173`.
-5.  **First Run**: Run `npm run setup` in the server directory to create the Super Admin account.
+**Employee (Demo)**
+- Email: `Demo11@gmail.com`
+- Password: `Hatboy@#$77`
 
+Login and start creating Admins and Employees from the dashboard.
 
- .
- As Employees: -   Email: Demo11@gmail.com and Password: Hatboy@#$77
-
-   **Super Admin Credentials**:
-   -   Email: superhatboy@gmail.com
- -   Password: sudo@8848 
-    
-8.  Login and start creating Admins and Employees.
+---
 
 ## Project Structure
 
-- `server/`: Backend API and Database Logic.
-- `client/`: Frontend React Application.
-- `server/uploads/`: Stores attendance images locally.
+```
+server/     Backend API, routes, and database logic
+client/     React frontend app
+server/uploads/   Attendance selfies stored here
+```
+
+---
 
 ## License
 
-Internal Use Only 
+Internal use only. Paid license. All rights reserved.

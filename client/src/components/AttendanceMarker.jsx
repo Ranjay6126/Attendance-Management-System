@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import axios from '../api/axios';
-import { Camera, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
+import { Camera, MapPin, AlertCircle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const AttendanceMarker = ({ onSuccess }) => {
@@ -94,6 +94,21 @@ const AttendanceMarker = ({ onSuccess }) => {
                 </div>
             )}
 
+            <div className={`mb-4 p-3 sm:p-4 rounded-xl text-center ${
+                isDark ? 'bg-indigo-900/20 border border-indigo-700/50' : 'bg-indigo-50 border border-indigo-200'
+            }`}>
+                <p className={`font-semibold text-sm sm:text-base ${
+                    isDark ? 'text-indigo-200' : 'text-indigo-800'
+                }`}>
+                    Take a selfie and allow location access
+                </p>
+                <p className={`font-semibold text-sm sm:text-base ${
+                    isDark ? 'text-indigo-200' : 'text-indigo-800'
+                }`}>
+                    to mark your attendance.
+                </p>
+            </div>
+
             <div className={`flex gap-2 sm:gap-4 mb-5 p-3 rounded-xl ${
                 isDark ? 'bg-gray-700/50' : 'bg-gradient-to-r from-indigo-100 to-blue-100 border border-blue-200'
             }`}>
@@ -110,7 +125,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                                 : 'bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-300'
                     }`}
                 >
-                    ✓ Check In
+                    Check In
                 </button>
                 <button 
                     onClick={() => {
@@ -125,7 +140,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                                 : 'bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-300'
                     }`}
                 >
-                    ✕ Check Out
+                    Check Out
                 </button>
             </div>
 
@@ -230,7 +245,7 @@ const AttendanceMarker = ({ onSuccess }) => {
                         : 'bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 text-white hover:from-indigo-700 hover:via-blue-700 hover:to-purple-700'
                 }`}
             >
-                {loading ? 'Processing...' : <><CheckCircle size={20} /> Submit Attendance</>}
+                {loading ? 'Processing...' : 'Submit Attendance'}
             </button>
         </div>
     );

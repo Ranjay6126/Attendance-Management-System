@@ -135,61 +135,52 @@ const EmployeeDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className={`p-6 rounded-xl transition-all ${
                     isDark 
-                        ? 'bg-gradient-to-br from-green-900 to-green-800 border border-green-700 shadow-lg' 
-                        : 'bg-gradient-to-br from-green-50 to-green-100 border border-green-300 shadow-md'
+                        ? 'bg-gradient-to-br from-blue-900 to-indigo-900 border border-blue-700 shadow-lg' 
+                        : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 shadow-md'
                 }`}>
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className={`text-sm font-semibold ${isDark ? 'text-green-200' : 'text-green-700'}`}>
+                            <p className={`text-sm font-semibold ${isDark ? 'text-blue-200' : 'text-blue-700'}`}>
                                 Total Present
                             </p>
-                            <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-green-900'}`}>
+                            <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-blue-900'}`}>
                                 {stats.Present}
                             </p>
                         </div>
-                        <svg className={`w-12 h-12 ${isDark ? 'text-green-400' : 'text-green-600'}`} fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
                     </div>
                 </div>
 
                 <div className={`p-6 rounded-xl transition-all ${
                     isDark 
-                        ? 'bg-gradient-to-br from-red-900 to-red-800 border border-red-700 shadow-lg' 
-                        : 'bg-gradient-to-br from-red-50 to-red-100 border border-red-300 shadow-md'
+                        ? 'bg-gradient-to-br from-blue-900 to-indigo-900 border border-blue-700 shadow-lg' 
+                        : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 shadow-md'
                 }`}>
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className={`text-sm font-semibold ${isDark ? 'text-red-200' : 'text-red-700'}`}>
+                            <p className={`text-sm font-semibold ${isDark ? 'text-blue-200' : 'text-blue-700'}`}>
                                 Total Absent
                             </p>
-                            <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-red-900'}`}>
+                            <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-blue-900'}`}>
                                 {stats.Absent}
                             </p>
                         </div>
-                        <svg className={`w-12 h-12 ${isDark ? 'text-red-400' : 'text-red-600'}`} fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                        </svg>
                     </div>
                 </div>
 
                 <div className={`p-6 rounded-xl transition-all ${
                     isDark 
-                        ? 'bg-gradient-to-br from-amber-900 to-amber-800 border border-amber-700 shadow-lg' 
-                        : 'bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-300 shadow-md'
+                        ? 'bg-gradient-to-br from-blue-900 to-indigo-900 border border-blue-700 shadow-lg' 
+                        : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 shadow-md'
                 }`}>
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className={`text-sm font-semibold ${isDark ? 'text-amber-200' : 'text-amber-700'}`}>
+                            <p className={`text-sm font-semibold ${isDark ? 'text-blue-200' : 'text-blue-700'}`}>
                                 Total Leave
                             </p>
-                            <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-amber-900'}`}>
+                            <p className={`text-3xl font-bold mt-2 ${isDark ? 'text-white' : 'text-blue-900'}`}>
                                 {stats.Leave}
                             </p>
                         </div>
-                        <svg className={`w-12 h-12 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                        </svg>
                     </div>
                 </div>
             </div>
@@ -313,52 +304,34 @@ const EmployeeDashboard = () => {
                                 ? 'bg-gray-800 border border-gray-700 shadow-xl' 
                                 : 'bg-white border border-gray-200 shadow-lg'
                         }`}>
-                            <h3 className={`text-lg font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                </svg>
+                            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                                 My Attendance Summary
                             </h3>
                             <div className="space-y-4">
                                 <div className={`p-4 rounded-lg flex justify-between items-center transition-transform hover:scale-[1.02] ${
-                                    isDark ? 'bg-green-900/20 border border-green-800' : 'bg-green-50 border border-green-100'
+                                    isDark ? 'bg-blue-900/20 border border-blue-800' : 'bg-blue-50 border border-blue-100'
                                 }`}>
                                     <div>
-                                        <p className={`text-sm font-semibold ${isDark ? 'text-green-300' : 'text-green-700'}`}>My Present Days</p>
-                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-green-100' : 'text-green-800'}`}>{stats.Present}</p>
-                                    </div>
-                                    <div className={`p-3 rounded-full ${isDark ? 'bg-green-800/50 text-green-300' : 'bg-green-100 text-green-600'}`}>
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                        <p className={`text-sm font-semibold ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>My Present Days</p>
+                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-blue-100' : 'text-blue-800'}`}>{stats.Present}</p>
                                     </div>
                                 </div>
                                 
                                 <div className={`p-4 rounded-lg flex justify-between items-center transition-transform hover:scale-[1.02] ${
-                                    isDark ? 'bg-red-900/20 border border-red-800' : 'bg-red-50 border border-red-100'
+                                    isDark ? 'bg-blue-900/20 border border-blue-800' : 'bg-blue-50 border border-blue-100'
                                 }`}>
                                     <div>
-                                        <p className={`text-sm font-semibold ${isDark ? 'text-red-300' : 'text-red-700'}`}>My Absent Days</p>
-                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-red-100' : 'text-red-800'}`}>{stats.Absent}</p>
-                                    </div>
-                                    <div className={`p-3 rounded-full ${isDark ? 'bg-red-800/50 text-red-300' : 'bg-red-100 text-red-600'}`}>
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                        <p className={`text-sm font-semibold ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>My Absent Days</p>
+                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-blue-100' : 'text-blue-800'}`}>{stats.Absent}</p>
                                     </div>
                                 </div>
 
                                 <div className={`p-4 rounded-lg flex justify-between items-center transition-transform hover:scale-[1.02] ${
-                                    isDark ? 'bg-amber-900/20 border border-amber-800' : 'bg-amber-50 border border-amber-100'
+                                    isDark ? 'bg-blue-900/20 border border-blue-800' : 'bg-blue-50 border border-blue-100'
                                 }`}>
                                     <div>
-                                        <p className={`text-sm font-semibold ${isDark ? 'text-amber-300' : 'text-amber-700'}`}>My Approved total no Leaves days</p>
-                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-amber-100' : 'text-amber-800'}`}>{stats.Leave}</p>
-                                    </div>
-                                    <div className={`p-3 rounded-full ${isDark ? 'bg-amber-800/50 text-amber-300' : 'bg-amber-100 text-amber-600'}`}>
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
+                                        <p className={`text-sm font-semibold ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>My Approved total no Leaves days</p>
+                                        <p className={`text-3xl font-bold mt-1 ${isDark ? 'text-blue-100' : 'text-blue-800'}`}>{stats.Leave}</p>
                                     </div>
                                 </div>
                             </div>
