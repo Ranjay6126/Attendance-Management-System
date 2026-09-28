@@ -23,5 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # // superhatboy@gmail.com
 # //sudo@8848
