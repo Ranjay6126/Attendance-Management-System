@@ -31,7 +31,7 @@ A professional attendance tracking app built with the MERN stack. Simple, secure
 ## Before You Start
 
 - Install Node.js
-- Install MongoDB and make sure it's running on `mongodb://localhost:27017`
+- Install MongoDB and make sure it's running on mongodb://localhost:27017
 
 ---
 
@@ -39,21 +39,18 @@ A professional attendance tracking app built with the MERN stack. Simple, secure
 
 ### 1. Backend (port 5000)
 
-```bash
+
 cd server
 npm install
 npm start
-```
+
 
 ### 2. Frontend (port 5173)
 
-```bash
+
 cd client
 npm install
 npm run dev
-```
-
----
 
 ## How to Run
 
@@ -64,38 +61,28 @@ npm run dev
 
 ### First Run
 
-On the login page, click **"Initialize System (First Run Only)"** to create the Super Admin account.
+On the login page, click Initialize System (First Run Only)  to create the Super Admin account.
 
 Or run the setup script:
 
-```bash
+
 cd server
 npm run setup
-```
 
----
+
+
 
 ## Demo Accounts
 
 **Super Admin**
-- Email: `superhatboy@gmail.com`
-- Password: `sudo@8848`
+- Email: superhatboy@gmail.com
+- Password: sudo@8848
 
 **Employee (Demo)**
-- Email: `Demo11@gmail.com`
-- Password: `Hatboy@#$77`
+- Email: Demo11@gmail.com
+- Password: Hatboy@#$77
 
 Login and start creating Admins and Employees from the dashboard.
-
----
-
-## Project Structure
-
-```
-server/     Backend API, routes, and database logic
-client/     React frontend app
-server/uploads/   Attendance selfies stored here
-```
 
 ---
 
